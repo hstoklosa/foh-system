@@ -9,7 +9,6 @@ import main.Order;
  *
  */
 
-
 public interface IKitchen {
 
     /**
@@ -27,3 +26,4 @@ public interface IKitchen {
     void submitOrder(Order order);
 
 }
+

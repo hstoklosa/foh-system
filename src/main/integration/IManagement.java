@@ -1,8 +1,8 @@
 package main.integration;
 
-import main.enums.Day;
+import main.Menu;
+import main.enums.WeekDay;
 
-import java.awt.*;
 
 /**
  * 
@@ -10,7 +10,6 @@ import java.awt.*;
  * A required interface to connect to the "Management" subsystem.
  * 
  */
-
 
 public interface IManagement {
 
@@ -37,13 +36,13 @@ public interface IManagement {
      * @param day   Parameter coming from an Enum class.
      * @return int  Returns average number as an integer.
      */
-    int getAverageCoversBooked(Day day);
+    int getAverageCoversBooked(WeekDay day);
 
     /**
      * The method finds and returns the most recent menu.
      * @param day   Parameter coming from an Enum class.
      * @return int  Returns the Menu object with dishes.
      */
-    int getAverageTablesBooked(Day day);
+    int getAverageTablesBooked(WeekDay day);
 
 }

@@ -1,6 +1,6 @@
 package main.enums;
 
-public enum Day {
+public enum WeekDay {
     MONDAY,
     TUESDAY,
     WEDNESDAY,
