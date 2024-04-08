@@ -1,7 +1,13 @@
 package main;
 
-public class Main {
+import javax.swing.*;
+
+public class Main { //This is all just filler for right now
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+
+        SwingUtilities.invokeLater(() -> {
+            HomePage homePage = new HomePage();
+            homePage.setVisible(true);
+        });
     }
 }
