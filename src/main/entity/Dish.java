@@ -1,4 +1,4 @@
-package main;
+package main.entity;
 
 public class Dish {
     private final int id;

@@ -1,7 +1,11 @@
 package main;
 
+import main.database.DBConnection;
+
 public class Main {
+
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        DBConnection conn = new DBConnection();
+        conn.getData();
     }
 }

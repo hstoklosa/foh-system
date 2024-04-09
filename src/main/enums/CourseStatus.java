@@ -1,6 +1,6 @@
 package main.enums;
 
-public enum CourseState {
+public enum CourseStatus {
     PENDING,
     PREPARING,
     READY,

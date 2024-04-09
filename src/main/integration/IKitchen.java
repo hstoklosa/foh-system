@@ -1,6 +1,11 @@
 package main.integration;
 
-import main.Order;
+import main.entity.Menu;
+import main.entity.Order;
+import main.entity.Recipe;
+import main.enums.CourseStatus;
+
+import java.util.ArrayList;
 
 /**
  *
@@ -12,18 +17,16 @@ import main.Order;
 public interface IKitchen {
 
     /**
-     * The method finds and returns the most recent menu.
-     * @param dishId    Parameter coming from an Enum class.
-     * @return boolean  Returns true if dish is available and false otherwise.
+     * @param order The order containing the course to check for readiness.
+     * @return CourseStatus Enum indicating the current status of the course.
      */
-    boolean checkDishAvailability(int dishId);
-
+    CourseStatus isCourseReady(Order order);
 
     /**
-     * The method finds and returns the most recent menu.
-     * @param order   The order object that has all necessary information.
+     * @param dishes The current menu to check for availability.
+     * @return ArrayList<Recipe> A list of dishes that are unavailable.
      */
-    void submitOrder(Order order);
+    ArrayList<Recipe> sendUnavailableDish(Menu dishes);
 
 }
 

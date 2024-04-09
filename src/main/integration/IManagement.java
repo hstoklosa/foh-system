@@ -1,6 +1,7 @@
 package main.integration;
 
-import main.Menu;
+import main.entity.Email;
+import main.entity.Menu;
 import main.enums.WeekDay;
 
 
@@ -14,35 +15,47 @@ import main.enums.WeekDay;
 public interface IManagement {
 
     /**
-     * The method finds and returns the most recent menu.
-     * @return      Returns a Menu object with dishes, pricing, allergen information.
+     * Retrieves the current menu of the restaurant.
+     *
+     * @return The menu of the restaurant.
      */
     Menu getMenu();
 
     /**
-     * The method finds and returns the most recent menu.
-     * @return int  Returns average number as an integer.
+     * Retrieves the total number of bookings made in the past year.
+     *
+     * @return The total number of annual bookings.
      */
-    int getAnnualTableBookings();
+    int getAnnualBooking();
 
     /**
-     * The method finds and returns the most recent menu.
-     * @return int  Returns average number as an integer.
+     * Retrieves the total number of covers served in the past year.
+     *
+     * @return The total number of annual covers.
      */
-    int getAnnualCoverBookings();
+    int getAnnualCovers();
 
     /**
-     * The method finds and returns the most recent menu.
-     * @param day   Parameter coming from an Enum class.
-     * @return int  Returns average number as an integer.
+     * Retrieves the average number of bookings for a specific day of the week.
+     *
+     * @param day a day of the week (an enum).
+     * @return The average number of bookings for the specified day.
      */
-    int getAverageCoversBooked(WeekDay day);
+    int getDayAverageBooking(WeekDay day);
 
     /**
-     * The method finds and returns the most recent menu.
-     * @param day   Parameter coming from an Enum class.
-     * @return int  Returns the Menu object with dishes.
+     * Retrieves the average number of covers for a specific day of the week.
+     *
+     * @param day a day of the week (an enum).
+     * @return The average number of covers for the specified day, specified through the argument.
      */
-    int getAverageTablesBooked(WeekDay day);
+    int getDayAverageCovers(WeekDay day);
+
+    /**
+     * Sends an email notification when the number of bookings exceeds a predefined limit.
+     *
+     * @return void
+     */
+    void sendLimitEmail(Email email);
 
 }
