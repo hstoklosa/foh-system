@@ -1,11 +1,11 @@
 package main;
 
 import main.database.DBConnection;
+import main.ui.GUI;
 
 public class Main {
 
     public static void main(String[] args) {
-        DBConnection conn = new DBConnection();
-        conn.getData();
+        new GUI(800, 600).start();
     }
 }
