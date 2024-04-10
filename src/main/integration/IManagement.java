@@ -1,6 +1,6 @@
 package main.integration;
 
-import main.entity.Email;
+
 import main.entity.Menu;
 import main.enums.WeekDay;
 
@@ -61,6 +61,6 @@ public interface IManagement {
      *
      * @return void
      */
-    void sendLimitEmail(Email email);
+
 
 }

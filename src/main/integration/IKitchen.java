@@ -3,7 +3,6 @@ package main.integration;
 
 import main.entity.Menu;
 import main.entity.Order;
-import main.entity.Recipe;
 import main.enums.CourseStatus;
 
 import java.util.ArrayList;
@@ -27,7 +26,6 @@ public interface IKitchen {
      * @param dishes The current menu to check for availability.
      * @return ArrayList<Recipe> A list of dishes that are unavailable.
      */
-    ArrayList<Recipe> sendUnavailableDish(Menu dishes);
 
 }
 

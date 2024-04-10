@@ -1,6 +1,5 @@
 package main;
 
-import main.database.DBConnection;
 import main.ui.GUI;
 
 public class Main {
