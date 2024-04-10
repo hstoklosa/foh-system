@@ -5,16 +5,14 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class HomePage extends JFrame{
+public class HomePage extends GUI{
 
     private JLabel dateTimeLabel;
     private CardLayout cardLayout = new CardLayout();
     private JPanel cardsPanel = new JPanel(cardLayout);
 
     public HomePage(){
-        setTitle("Front of House System");
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        super(800, 600);
 
         setJMenuBar(createMenuBar());
         getContentPane().setLayout(new BorderLayout());
@@ -35,6 +33,8 @@ public class HomePage extends JFrame{
         getContentPane().add(cardsPanel, BorderLayout.CENTER);
 
         getContentPane().add(createNavigationBar(), BorderLayout.SOUTH);
+
+        initialize();
     }
 
     public void showCard(String cardName){
@@ -59,12 +59,12 @@ public class HomePage extends JFrame{
         headerPanel.setPreferredSize(new Dimension(800, 50));
 
         JLabel nameLabel = new JLabel("Lancaster's");
-        nameLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        nameLabel.setFont(new Font("Open Sans", Font.BOLD, 20).deriveFont(20f));
 
         nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
 
         dateTimeLabel = new JLabel();
-        dateTimeLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        dateTimeLabel.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
         updateDateTime();
 
         dateTimeLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
@@ -89,6 +89,7 @@ public class HomePage extends JFrame{
         panel.setLayout(new BorderLayout());
 
         JLabel welcomeLabel = new JLabel("Front of House System", SwingConstants.CENTER);
+        welcomeLabel.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
         panel.add(welcomeLabel, BorderLayout.CENTER);
 
         return panel;
@@ -105,6 +106,11 @@ public class HomePage extends JFrame{
         bookingsButton.addActionListener(e -> showCard("BookingsPage"));
         ordersButton.addActionListener(e -> showCard("OrdersPage"));
         paymentButton.addActionListener(e -> showCard("PaymentPage"));
+
+        tablesButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
+        bookingsButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
+        ordersButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
+        paymentButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
 
         JButton homeButton = new JButton("Home");
         homeButton.addActionListener(e -> showCard("ContentPanel"));
