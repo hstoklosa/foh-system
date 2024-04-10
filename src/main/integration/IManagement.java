@@ -18,6 +18,8 @@ public interface IManagement {
      * Retrieves the current menu of the restaurant.
      *
      * @return The menu of the restaurant.
+     * The method finds and returns the most recent menu.
+     * @return      Returns a main.integration.management.Menu object with dishes, pricing, allergen information.
      */
     Menu getMenu();
 
@@ -48,6 +50,9 @@ public interface IManagement {
      *
      * @param day a day of the week (an enum).
      * @return The average number of covers for the specified day, specified through the argument.
+     * The method finds and returns the most recent menu.
+     * @param day   Parameter coming from an Enum class.
+     * @return int  Returns the main.integration.management.Menu object with dishes.
      */
     int getDayAverageCovers(WeekDay day);
 

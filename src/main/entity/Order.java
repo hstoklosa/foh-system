@@ -1,6 +1,7 @@
 package main.entity;
 
 
+import main.entity.Course;
 import main.enums.OrderState;
 
 import java.util.ArrayList;
