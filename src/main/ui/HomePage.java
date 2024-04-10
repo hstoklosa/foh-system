@@ -1,7 +1,6 @@
-package main;
+package main.ui;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

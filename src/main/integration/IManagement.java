@@ -1,6 +1,6 @@
 package main.integration;
 
-import main.Menu;
+import main.entity.Menu;
 import main.enums.WeekDay;
 
 
@@ -15,7 +15,7 @@ public interface IManagement {
 
     /**
      * The method finds and returns the most recent menu.
-     * @return      Returns a Menu object with dishes, pricing, allergen information.
+     * @return      Returns a main.integration.management.Menu object with dishes, pricing, allergen information.
      */
     Menu getMenu();
 
@@ -41,7 +41,7 @@ public interface IManagement {
     /**
      * The method finds and returns the most recent menu.
      * @param day   Parameter coming from an Enum class.
-     * @return int  Returns the Menu object with dishes.
+     * @return int  Returns the main.integration.management.Menu object with dishes.
      */
     int getAverageTablesBooked(WeekDay day);
 

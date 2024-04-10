@@ -1,5 +1,7 @@
 package main;
 
+import main.ui.HomePage;
+
 import javax.swing.*;
 
 public class Main { //This is all just filler for right now

@@ -1,19 +1,18 @@
-package main;
+package main.ui;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
-public class OrdersPage extends JPanel{
+public class PaymentPage extends JPanel{
 
-    public OrdersPage(HomePage parentFrame){
+    public PaymentPage(HomePage parentFrame){
         setLayout(new BorderLayout());
 
         JButton backButton = new JButton("Home");
         backButton.addActionListener(e -> parentFrame.showCard("ContentPanel"));
         add(backButton, BorderLayout.NORTH);
 
-        JLabel label = new JLabel("Orders Page", SwingConstants.CENTER);
+        JLabel label = new JLabel("Payment Page", SwingConstants.CENTER);
         add(label, BorderLayout.CENTER);
 
     }

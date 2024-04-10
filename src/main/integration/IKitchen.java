@@ -1,6 +1,6 @@
 package main.integration;
 
-import main.Order;
+import main.entity.Order;
 
 /**
  *

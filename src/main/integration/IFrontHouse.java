@@ -1,6 +1,6 @@
 package main.integration;
 
-import main.Dish;
+import main.entity.Dish;
 import main.enums.WeekDay;
 
 import java.util.HashMap;

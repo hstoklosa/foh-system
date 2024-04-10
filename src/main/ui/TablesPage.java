@@ -1,10 +1,7 @@
-package main;
+package main.ui;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class TablesPage extends JPanel { //This can be a GUI with the table layout, and you can click on each table to
                                          //open up its
