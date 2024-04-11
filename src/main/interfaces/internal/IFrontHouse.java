@@ -1,4 +1,4 @@
-package main.interfaces.internalApi;
+package main.interfaces.internal;
 
 import main.entity.Dish;
 import main.entity.Order;
