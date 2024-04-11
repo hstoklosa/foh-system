@@ -3,7 +3,6 @@ package main.ui;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 public class BookingsPage extends JPanel{
 
