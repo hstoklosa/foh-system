@@ -12,15 +12,6 @@ public class GUI extends JFrame {
     public GUI(int defaultWidth, int defaultHeight) {
         this.DEFAULT_WIDTH = defaultWidth;
         this.DEFAULT_HEIGHT = defaultHeight;
-        setPreferredSize(new Dimension(defaultWidth, defaultHeight));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationByPlatform(true);
-        setResizable(false);
-    }
-
-    public void initialize(){
-        pack();
-        setVisible(true);
     }
 
     static {
@@ -35,13 +26,13 @@ public class GUI extends JFrame {
         }
     }
 
-//    public void start() {
-//        setLayout(new BorderLayout());
-//        setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
-//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allows frame to exit the app
-//        setLocationByPlatform(true);
-//        setResizable(false); // don't let the frame be resized
-//        pack(); // size the frame to fit the view
-//        setVisible(true);
-//    }
+    public void start() {
+        setLayout(new BorderLayout());
+        setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allows frame to exit the app
+        setLocationByPlatform(true);
+        setResizable(false); // don't let the frame be resized
+        pack(); // size the frame to fit the view
+        setVisible(true);
+    }
 }

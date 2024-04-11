@@ -34,7 +34,7 @@ public class HomePage extends GUI{
 
         getContentPane().add(createNavigationBar(), BorderLayout.SOUTH);
 
-        initialize();
+        start();
     }
 
     public void showCard(String cardName){

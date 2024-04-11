@@ -4,7 +4,7 @@ package main.interfaces.internalApi;
 import main.entity.Menu;
 import main.entity.Order;
 import main.enums.CourseStatus;
-import main.entity.Recipe;
+import main.entity.Dish;
 
 import java.util.ArrayList;
 
@@ -27,6 +27,6 @@ public interface IKitchen {
      * @param dishes The current menu to check for availability.
      * @return ArrayList<Recipe> A list of dishes that are unavailable.
      */
-    ArrayList<Recipe> sendUnavailableDish(Menu dishes);
+    ArrayList<Dish> sendUnavailableDish(Menu dishes);
 }
 
