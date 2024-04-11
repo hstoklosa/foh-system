@@ -33,6 +33,7 @@ public class HomePage extends GUI{
         getContentPane().add(cardsPanel, BorderLayout.CENTER);
 
         getContentPane().add(createNavigationBar(), BorderLayout.SOUTH);
+        showCard("ContentPanel");
 
         start();
     }

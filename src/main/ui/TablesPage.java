@@ -12,7 +12,7 @@ public class TablesPage extends JPanel { //This can be a GUI with the table layo
         this.parentFrame = parentFrame;
         setLayout(new BorderLayout());
 
-        JPanel floorPlanPanel = new JPanel(new GridLayout(5, 4, 10, 10));
+        JPanel floorPlanPanel = new JPanel();
         for (int i = 1; i <= 15; i++){
             Table tableButton = new Table("Table " + i);
             tableButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));

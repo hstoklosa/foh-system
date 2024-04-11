@@ -27,7 +27,6 @@ public class GUI extends JFrame {
     }
 
     public void start() {
-        setLayout(new BorderLayout());
         setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allows frame to exit the app
         setLocationByPlatform(true);
