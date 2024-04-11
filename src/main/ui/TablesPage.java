@@ -6,9 +6,9 @@ import java.awt.*;
 public class TablesPage extends JPanel { //This can be a GUI with the table layout, and you can click on each table to
                                          //open up its
 
-    private HomePage parentFrame;
+    private GUI parentFrame;
 
-    public TablesPage(HomePage parentFrame){
+    public TablesPage(GUI parentFrame){
         this.parentFrame = parentFrame;
         setLayout(new BorderLayout());
 
@@ -21,7 +21,7 @@ public class TablesPage extends JPanel { //This can be a GUI with the table layo
 
         JButton backButton = new JButton("Home");
         backButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
-        backButton.addActionListener(e -> parentFrame.showCard("ContentPanel"));
+        backButton.addActionListener(e -> parentFrame.showCard("HomePage"));
         add(backButton, BorderLayout.NORTH);
 
         JLabel label = new JLabel("Tables Page", SwingConstants.CENTER);

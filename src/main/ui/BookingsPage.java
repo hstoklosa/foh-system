@@ -10,7 +10,7 @@ public class BookingsPage extends JPanel{
     private JList<Booking> bookingsList;
     private DefaultListModel<Booking> bookingsModel;
 
-    public BookingsPage(HomePage parentFrame){
+    public BookingsPage(GUI parentFrame){
         setLayout(new BorderLayout());
         bookingsModel = new DefaultListModel<>();
         bookingsList = new JList<>(bookingsModel);
@@ -22,7 +22,7 @@ public class BookingsPage extends JPanel{
 
         JButton backButton = new JButton("Home");
         backButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
-        backButton.addActionListener(e -> parentFrame.showCard("ContentPanel"));
+        backButton.addActionListener(e -> parentFrame.showCard("HomePage"));
         add(backButton, BorderLayout.NORTH);
 
         JLabel label = new JLabel("Bookings Page", SwingConstants.CENTER);
