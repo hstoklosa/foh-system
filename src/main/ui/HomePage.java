@@ -15,16 +15,4 @@ public class HomePage extends JPanel{
 
 
     }
-
-    protected JPanel createContentPanel(){
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-
-        JLabel welcomeLabel = new JLabel("Front of House System", SwingConstants.CENTER);
-        welcomeLabel.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
-        panel.add(welcomeLabel, BorderLayout.CENTER);
-
-        return panel;
-    }
-
 }
