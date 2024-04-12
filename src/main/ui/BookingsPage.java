@@ -39,7 +39,7 @@ public class BookingsPage extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2 && !e.isConsumed()) {
                     e.consume();
-                    manageBooking();
+                    updateBooking();
                 }
             }
         });
@@ -55,7 +55,7 @@ public class BookingsPage extends JPanel {
         bookingsModel.addElement(booking);
     }
 
-    private void manageBooking() {
+    private void updateBooking() {
         Booking selectedBooking = bookingsList.getSelectedValue();
         if (selectedBooking != null) {
             JPanel panel = new JPanel(new GridLayout(0, 1));
