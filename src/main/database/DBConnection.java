@@ -7,11 +7,13 @@ import java.util.Properties;
 
 public class DBConnection implements IDBConnection {
     private final String CONNECTION_URL = "jdbc:mysql://smcse-stuproj00.city.ac.uk:3306/in2033t04";
-    private final String DB_USERNAME = "in2033t04_a";
-    private final String DB_PASSWORD = "FREK6PsYUCw";
+
+    private final String DB_USERNAME;
+    private final String DB_PASSWORD;
 
     public DBConnection(String username, String password) {
-
+        this.DB_USERNAME = username;
+        this.DB_PASSWORD = password;
     }
 
     @Override
@@ -23,7 +25,7 @@ public class DBConnection implements IDBConnection {
         connectionProps.put("password", this.DB_PASSWORD);
 
         try {
-            conn = DriverManager.getConnection(sql, connectionProps);
+            conn = DriverManager.getConnection(CONNECTION_URL, connectionProps);
             System.out.println("Database connection has been established.");
         } catch (SQLException sqle) {
             System.err.println("DB_CONNECT_ERROR: " + sqle.getMessage());
