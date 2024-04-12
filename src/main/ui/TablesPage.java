@@ -1,5 +1,7 @@
 package main.ui;
 
+import main.entity.Table;
+
 import javax.swing.*;
 import java.awt.*;
 

@@ -1,5 +1,7 @@
 package main.ui;
 
+import main.entity.Booking;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;

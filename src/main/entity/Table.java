@@ -1,4 +1,4 @@
-package main.ui;
+package main.entity;
 
 import javax.swing.*;
 import java.awt.*;
