@@ -1,11 +1,12 @@
 package main.database;
 
 import main.interfaces.IDBConnection;
+import main.interfaces.IDBTransaction;
 
 import java.sql.*;
 import java.util.Properties;
 
-public class DBConnection implements IDBConnection {
+public class DBConnection implements IDBConnection, IDBTransaction {
     private final String CONNECTION_URL = "jdbc:mysql://smcse-stuproj00.city.ac.uk:3306/in2033t04";
 
     private final String DB_USERNAME;
@@ -69,5 +70,51 @@ public class DBConnection implements IDBConnection {
         } catch (SQLException sqle) {
             System.err.println("DB_CLOSE_ERROR: " + sqle.getMessage());
         }
+    }
+
+    @Override
+    public void startTransaction(Connection conn) throws SQLException {
+        conn.setAutoCommit(false);
+    }
+
+    @Override
+    public boolean commit(Connection conn) {
+        try {
+            conn.commit();
+            conn.setAutoCommit(true);
+            System.out.println("Transaction committed successfully.");
+            return true;
+        } catch (SQLException e) {
+            System.err.println("TRANSACTION_COMMIT_ERROR: Failed to commit transaction, " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean rollback(Connection conn) {
+        try {
+            conn.rollback();
+            System.out.println("Transaction rolled back successfully.");
+            return true;
+        } catch (SQLException e) {
+            System.err.println("TRANSACTION_ROLLBACK_ERROR: Failed to rollback transaction: " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean setIsolationLevel(String level, Connection conn) throws SQLException {
+        int isolationLevel = switch (level.toUpperCase()) {
+            case "READ_UNCOMMITTED" -> Connection.TRANSACTION_READ_UNCOMMITTED;
+            case "READ_COMMITTED" -> Connection.TRANSACTION_READ_COMMITTED;
+            case "REPEATABLE_READ" -> Connection.TRANSACTION_REPEATABLE_READ;
+            case "SERIALIZABLE" -> Connection.TRANSACTION_SERIALIZABLE;
+            default -> throw new IllegalArgumentException("Invalid isolation level: " + level);
+        };
+
+        conn.setTransactionIsolation(isolationLevel);
+        return true;
     }
 }
