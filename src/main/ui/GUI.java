@@ -22,9 +22,13 @@ public class GUI extends JFrame {
     static {
         try {
             // SEE: https://stackoverflow.com/questions/5652344/how-can-i-use-a-custom-font-in-java
+
             GraphicsEnvironment ge =
                     GraphicsEnvironment.getLocalGraphicsEnvironment();
 
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/fonts/OpenSans-Regular.ttf")));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/fonts/OpenSans-Medium.ttf")));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/fonts/OpenSans-SemiBold.ttf")));
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/resources/fonts/OpenSans-Bold.ttf")));
         } catch (IOException | FontFormatException e) {
             throw new RuntimeException(e);
