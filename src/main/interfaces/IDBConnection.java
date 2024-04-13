@@ -4,12 +4,12 @@ import java.sql.*;
 
 public interface IDBConnection {
 
-    Connection connect(String sql);
+    Connection connect();
 
     void closeConnection(Connection conn);
 
-    int write(String sql, Connection conn);
+    int write(String sql, Connection conn) throws SQLException;
 
-    ResultSet read(String sql, Connection conn);
+    ResultSet read(String sql, Connection conn) throws SQLException;
 
 }
