@@ -14,8 +14,6 @@ import java.util.Vector;
 
 public class FOHController implements IFrontHouse {
     private final int DEFAULT_TABLES_AMOUNT = 15;
-
-    private final GUI mainFrame;
     private final DBConnection db;
 
     private Menu currentMenu;
@@ -31,9 +29,6 @@ public class FOHController implements IFrontHouse {
         this.currentMenu = null;
         this.bookings = initBookings();
         this.tables = initTables();
-
-        this.mainFrame = new GUI(800, 600, this);
-        this.mainFrame.start();
     }
 
     private Vector<Booking> initBookings() {
