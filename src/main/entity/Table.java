@@ -3,46 +3,51 @@ package main.entity;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import main.enums.TableStatus;
 
-public class Table extends JButton { //click the tables to change their color
+public class Table {
 
-    private String tableId;
+    private int tableId;
     private TableStatus status;
+    private Bill bill;
+    private Staff waiter;
 
-    public Table(String tableId){
-        super(tableId);
+    public Table(int tableId) {
         this.tableId = tableId;
         this.status = TableStatus.FREE;
-        updateButtonAppearance();
-
-        this.addActionListener(e -> popUp());
+        this.waiter = null;
+        this.bill = null;
     }
 
-    private void popUp(){
+    public int getTableId() {
+        return tableId;
     }
 
-    private void toggleStatus(){
-        if (this.status == TableStatus.FREE){
-            this.status = TableStatus.TAKEN;
-        }
-        else{
-            this.status = TableStatus.FREE;
-        }
-        updateButtonAppearance();
+    public void setTableId(int tableId) {
+        this.tableId = tableId;
     }
 
-    private void updateButtonAppearance(){
-        switch (this.status) {
-            case FREE:
-                this.setBackground(Color.GREEN);
-                break;
-            case TAKEN:
-                this.setBackground(Color.RED);
-                break;
-        }
+    public TableStatus getStatus() {
+        return status;
     }
 
-    enum TableStatus{
-        FREE, TAKEN
+    public void setStatus(TableStatus status) {
+        this.status = status;
+    }
+
+    public Staff getWaiter() {
+        return waiter;
+    }
+
+    public void setWaiter(Staff waiter) {
+        this.waiter = waiter;
+    }
+
+    public Bill getBill() {
+        return bill;
+    }
+
+    public void setBill(Bill bill) {
+        this.bill = bill;
     }
 }
