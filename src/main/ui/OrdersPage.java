@@ -3,44 +3,47 @@ package main.ui;
 import main.entity.Course;
 import main.entity.Dish;
 import main.entity.Order;
+
+import main.enums.CourseStatus;
 import main.enums.OrderState;
+import main.enums.CourseType;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class OrdersPage extends JPanel{
 
     private GUI parentFrame;
-    private JComboBox<String> tableSelector, courseSelector;
+    private JComboBox<String> courseSelector;
     private JList<Dish> menuList;
     private DefaultListModel<Dish> menuModel;
     private JList<String> orderList;
     private DefaultListModel<String> orderModel;
+    private JList<String> course1List, course2List, course3List;
+    private DefaultListModel<String> course1Model, course2Model, course3Model;
+    private JLabel course1StatusLabel, course2StatusLabel, course3StatusLabel;
     private JButton addToOrderButton, removeFromOrderButton, sendToKitchenButton;
-    private Map<String, Order> tableOrders;
+    private Order currentOrder;
 
     public OrdersPage(GUI parentFrame){
         this.parentFrame = parentFrame;
+        this.currentOrder = new Order(1, 0);
         parentFrame.setBackground(new Color(208, 207, 207));
         setLayout(new BorderLayout());
-        initializeComponents();
-        configureLayout();
+        createUIElements();
+        UILayout();
     }
 
-    private void initializeComponents(){
-        tableSelector = new JComboBox<>(new String[]{"Table 1", "Table 2", "Table 3", "Table 4"});
-        tableSelector.addActionListener(e -> updateOrderListForSelectedTable());
-
+    private void createUIElements(){
         courseSelector = new JComboBox<>(new String[]{"Course 1", "Course 2", "Course 3"});
         courseSelector.addActionListener(e -> updateOrderListForSelectedCourse());
 
-        tableSelector.setBackground(new Color(208, 207, 207));
         courseSelector.setBackground(new Color(208, 207, 207));
-
-        tableOrders = new HashMap<>();
 
         menuModel = new DefaultListModel<>();
         menuList = new JList<>(menuModel);
@@ -49,6 +52,14 @@ public class OrdersPage extends JPanel{
 
         orderModel = new DefaultListModel<>();
         orderList = new JList<>(orderModel);
+
+        course1Model = new DefaultListModel<>();
+        course2Model = new DefaultListModel<>();
+        course3Model = new DefaultListModel<>();
+
+        course1List = new JList<>(course1Model);
+        course2List = new JList<>(course2Model);
+        course3List = new JList<>(course3Model);
 
         addToOrderButton = new JButton("Add to Order");
         addToOrderButton.setBackground(new Color(208, 207, 207));
@@ -59,50 +70,49 @@ public class OrdersPage extends JPanel{
 
         addToOrderButton.addActionListener(e -> addSelectedDishToOrder());
         removeFromOrderButton.addActionListener(e -> removeSelectedDishFromOrder());
+        sendToKitchenButton.addActionListener(e -> sendToKitchen());
     }
 
-    private void configureLayout(){
+    private void UILayout(){
         JPanel northPanel = new JPanel(new FlowLayout());
-        northPanel.add(new JLabel("Table:"));
-        northPanel.add(tableSelector);
         northPanel.add(new JLabel("Course"));
         northPanel.add(courseSelector);
 
-        JPanel centerPanel = new JPanel(new GridLayout(1, 2));
+        JPanel centerPanel = new JPanel(new GridLayout(1, 2, 5, 5));
         centerPanel.add(new JScrollPane(menuList), BorderLayout.WEST);
         centerPanel.add(new JScrollPane(orderList), BorderLayout.EAST);
 
-        JPanel southPanel = new JPanel();
-        southPanel.add(addToOrderButton);
-        southPanel.add(removeFromOrderButton);
-        southPanel.add(sendToKitchenButton);
+        JPanel coursesPanel = new JPanel(new GridLayout(1, 3, 5, 5));
+        JPanel actionPanel1 = new JPanel(new BorderLayout());
+        JPanel actionPanel2 = new JPanel(new BorderLayout());
+        JPanel actionPanel3 = new JPanel(new BorderLayout());
 
+        actionPanel1.add(addToOrderButton, BorderLayout.NORTH);
+        actionPanel1.add(new JScrollPane(course1List), BorderLayout.CENTER);
+
+        actionPanel2.add(removeFromOrderButton, BorderLayout.NORTH);
+        actionPanel2.add(new JScrollPane(course2List), BorderLayout.CENTER);
+
+        actionPanel3.add(sendToKitchenButton, BorderLayout.NORTH);
+        actionPanel3.add(new JScrollPane(course3List), BorderLayout.CENTER);
+
+        coursesPanel.add(actionPanel1);
+        coursesPanel.add(actionPanel2);
+        coursesPanel.add(actionPanel3);
+
+        JPanel southPanel = new JPanel(new BorderLayout());
+        southPanel.add(coursesPanel, BorderLayout.CENTER);
+
+        setLayout(new BorderLayout(5, 5));
         add(northPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
         add(southPanel, BorderLayout.SOUTH);
     }
 
-    private void updateOrderListForSelectedTable(){
-        String selectedTable = normalizeKey((String) tableSelector.getSelectedItem());
-        if(selectedTable != null){
-            Order order = tableOrders.computeIfAbsent(selectedTable, k -> {
-                System.out.println("Creating a new order for table: " + k);
-                return new Order(generateOrderId(), Integer.parseInt(k.substring(6).trim()));
-            });
-            updateOrderListForSelectedCourse();
-        }
-        else{
-            System.out.println("no Table Selected");
-        }
-    }
-
     private void updateOrderListForSelectedCourse(){
         orderModel.clear();
-        String selectedTable = normalizeKey((String) tableSelector.getSelectedItem());
         int courseIndex = courseSelector.getSelectedIndex();
-        Order order = tableOrders.get(selectedTable);
-        Course course = order.getCourses().get(courseIndex);
-
+        Course course = currentOrder.getCourses().get(courseIndex);
         for(Dish dish : course.getDishes()){
             orderModel.addElement(dish.getName());
         }
@@ -111,44 +121,48 @@ public class OrdersPage extends JPanel{
     private void addSelectedDishToOrder() {
         Dish selectedDish = menuList.getSelectedValue();
         if (selectedDish != null) {
-            String selectedTable = normalizeKey((String) tableSelector.getSelectedItem());
-            Order order = tableOrders.get(selectedTable);
-            if (order != null) {
-                int courseIndex = courseSelector.getSelectedIndex();
-                if (courseIndex >= 0 && courseIndex < order.getCourses().size()) {
-                    Course course = order.getCourses().get(courseIndex);
-                    course.getDishes().add(selectedDish);
-                    updateOrderListForSelectedCourse();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Invalid course selection. Course index: " + courseIndex);
-                }
-            } else {
-                System.out.println("No order found for the selected table: " + selectedTable);
-                JOptionPane.showMessageDialog(this, "Order is not available for the selected table.");
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "No dish selected.");
+            int courseIndex = courseSelector.getSelectedIndex();
+            Course course = currentOrder.getCourses().get(courseIndex);
+            course.getDishes().add(selectedDish);
+            updateOrderListForSelectedCourse();
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "No dish selected");
         }
     }
 
     private void removeSelectedDishFromOrder() {
-        String selectedTable = normalizeKey((String) tableSelector.getSelectedItem());
         int courseIndex = courseSelector.getSelectedIndex();
-        Order order = tableOrders.get(selectedTable);
-        Course course = order.getCourses().get(courseIndex);
-
+        Course course = currentOrder.getCourses().get(courseIndex);
         int selectedIndex = orderList.getSelectedIndex();
-        if (selectedIndex != -1) {
+        if (selectedIndex != -1){
             course.getDishes().remove(selectedIndex);
             updateOrderListForSelectedCourse();
         }
     }
 
-    private int generateOrderId() {
-        return tableOrders.size() + 1;
-    }
+    private void sendToKitchen(){
+        int courseIndex = courseSelector.getSelectedIndex();
+        DefaultListModel<String> targetModel = null;
+        switch(courseIndex){
+            case 0:
+                targetModel = course1Model;
+                break;
+            case 1:
+                targetModel = course2Model;
+                break;
+            case 2:
+                targetModel = course3Model;
+                break;
+        }
 
-    private String normalizeKey(String key){
-        return key.trim().toLowerCase();
+        if (targetModel != null) {
+            Course course = currentOrder.getCourses().get(courseIndex);
+            for(String dishName : course.getDishes().stream().map(Dish::getName).collect(Collectors.toList())){
+                targetModel.addElement(dishName);
+            }
+            course.getDishes().clear();
+            updateOrderListForSelectedCourse();
+        }
     }
 }
