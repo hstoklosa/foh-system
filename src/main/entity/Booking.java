@@ -2,18 +2,21 @@ package main.entity;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import main.entity.Table;
 
 public class Booking {
     private String name;
     private String phoneNumber;
     private int tableSize;
     private LocalDateTime bookingTime;
+    private Table table;
 
     public Booking(String name, String phoneNumber, int tableSize, LocalDateTime bookingTime) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.tableSize = tableSize;
         this.bookingTime = bookingTime;
+        this.table = null;
     }
 
     @Override

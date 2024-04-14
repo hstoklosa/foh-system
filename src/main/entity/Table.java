@@ -15,7 +15,10 @@ public class Table extends JButton { //click the tables to change their color
         this.status = TableStatus.FREE;
         updateButtonAppearance();
 
-        this.addActionListener(e -> toggleStatus());
+        this.addActionListener(e -> popUp());
+    }
+
+    private void popUp(){
     }
 
     private void toggleStatus(){

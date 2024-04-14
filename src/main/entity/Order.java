@@ -2,6 +2,7 @@ package main.entity;
 
 
 import main.entity.Course;
+import main.enums.CourseType;
 import main.enums.OrderState;
 
 import java.util.ArrayList;
@@ -31,7 +32,15 @@ public class Order {
      * @param tableNumber   The table number associated with the order.
      */
     public Order(int id, int tableNumber) {
-        this(id, tableNumber, new ArrayList<>());
+        this.id = id;
+        this.tableNumber = tableNumber;
+        this.courses = new ArrayList<>();
+
+        this.courses.add(new Course(CourseType.COURSE_AWAY_1, new ArrayList<>()));
+        this.courses.add(new Course(CourseType.COURSE_AWAY_2, new ArrayList<>()));
+        this.courses.add(new Course(CourseType.COURSE_AWAY_3, new ArrayList<>()));
+        this.currentCourseIndex = 0;
+        this.state = OrderState.PREPARING;
     }
 
     /**

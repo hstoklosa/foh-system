@@ -14,7 +14,12 @@ public class Course {
     public Course(CourseType type, ArrayList<Dish> dishes) {
         this.type = type;
         this.state = CourseStatus.PENDING;
-        this.dishes = new ArrayList<>();
+        if(dishes != null){
+            this.dishes = dishes;
+        }
+        else{
+            this.dishes = new ArrayList<>();
+        }
     }
 
     public CourseType getType() {
