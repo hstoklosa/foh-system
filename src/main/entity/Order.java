@@ -16,7 +16,6 @@ import java.util.List;
  * courses to be served, and has an overall state reflecting its progress.
  *
  */
-
 public class Order {
     private final int id;
     private int tableNumber;

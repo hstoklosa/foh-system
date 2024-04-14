@@ -57,6 +57,7 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
             tableButton.setBounds(x, y, tableWidth, tableHeight);
             makeComponentDraggable(tableButton);
 
+
             tableButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
             tableButton.addMouseListener(new MouseAdapter() {
                 @Override

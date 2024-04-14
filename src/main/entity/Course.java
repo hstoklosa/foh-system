@@ -18,9 +18,10 @@ public class Course {
 
         if (dishes != null) {
             this.dishes = dishes;
-        } else{
+        } else {
             this.dishes = new ArrayList<>();
         }
+
     }
 
     public CourseType getType() {
