@@ -4,7 +4,6 @@ import main.database.DBConnection;
 import main.entity.*;
 import main.enums.WeekDay;
 import main.interfaces.internal.IFrontHouse;
-import main.ui.GUI;
 
 import java.sql.*;
 import java.time.LocalDateTime;

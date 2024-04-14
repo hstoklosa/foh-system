@@ -1,4 +1,4 @@
-package main.ui;
+package main.view;
 
 import main.controller.FOHController;
 import main.entity.Booking;
@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class BookingsPage extends JPanel {
-    private GUI parentFrame;
+    private MainView parentFrame;
     private FOHController mainControl;
 
     private JList<Booking> bookingsList;
@@ -21,7 +21,7 @@ public class BookingsPage extends JPanel {
     private JButton addButton;
     private JButton removeButton;
 
-    public BookingsPage(GUI parentFrame, FOHController mainControl) {
+    public BookingsPage(MainView parentFrame, FOHController mainControl) {
         this.parentFrame = parentFrame;
         this.mainControl = mainControl;
         this.bookingsModel = new DefaultListModel<>();

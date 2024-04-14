@@ -1,7 +1,7 @@
-package main.ui;
+package main.view;
 
 import main.controller.FOHController;
-import main.controller.TableController;
+import main.view.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,12 +10,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class GUI extends JFrame {
+public class MainView extends JFrame {
     private final int DEFAULT_WIDTH;
     private final int DEFAULT_HEIGHT;
 
     private FOHController controller;
-
 
     private Color lancasterColor = new Color(43, 51, 54);
     private Color fontColor = new Color(169, 168, 166);
@@ -25,7 +24,7 @@ public class GUI extends JFrame {
     private JPanel cardsPanel = new JPanel(cardLayout);
     private JLabel dateTimeLabel;
 
-    public GUI(int defaultWidth, int defaultHeight, FOHController controller) {
+    public MainView(int defaultWidth, int defaultHeight, FOHController controller) {
         super("Lancaster's Restaurant - Front of House");
         this.DEFAULT_WIDTH = defaultWidth;
         this.DEFAULT_HEIGHT = defaultHeight;
@@ -51,7 +50,7 @@ public class GUI extends JFrame {
         setLocationByPlatform(true);
         setResizable(false);
 
-        for(Component comp : cardsPanel.getComponents()){
+        for (Component comp : cardsPanel.getComponents()) {
             comp.setBackground(lancasterColor);
         }
     }
@@ -78,9 +77,8 @@ public class GUI extends JFrame {
         setResizable(false); // don't let the frame be resized
 
         HomePage homePage = new HomePage();
-        TablesPage tablesPage = new TablesPage(this, controller);
+        TableSelectorPage tablesPage = new TableSelectorPage(this, controller);
         BookingsPage bookingsPage = new BookingsPage(this, controller);
-//        OrdersPage ordersPage = new OrdersPage(this);
         PaymentPage paymentPage = new PaymentPage(this);
 
         homePage.setBackground(lancasterColor);
@@ -92,11 +90,9 @@ public class GUI extends JFrame {
         cardsPanel.add(homePage, "HomePage");
         cardsPanel.add(tablesPage, "TablesPage");
         cardsPanel.add(bookingsPage, "BookingsPage");
-//        cardsPanel.add(ordersPage, "OrdersPage");
         cardsPanel.add(paymentPage, "PaymentPage");
 
         this.add(cardsPanel, BorderLayout.CENTER);
-//        this.add(createMenuBar(), BorderLayout.NORTH);
         this.add(createHeaderPanel(), BorderLayout.NORTH);
         this.add(createNavigationBar(), BorderLayout.SOUTH);
 

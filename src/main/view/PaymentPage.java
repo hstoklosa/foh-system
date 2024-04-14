@@ -1,10 +1,10 @@
-package main.ui;
+package main.view;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class PaymentPage extends JPanel {
-    public PaymentPage(GUI parentFrame) {
+    public PaymentPage(MainView parentFrame) {
         setLayout(new BorderLayout());
 
         // Back button

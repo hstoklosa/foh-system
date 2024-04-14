@@ -1,14 +1,12 @@
-package main.ui;
+package main.view;
 
 import main.controller.FOHController;
-import main.controller.TableController;
+import main.controller.OrderController;
 import main.entity.Booking;
 import main.entity.Table;
 import main.enums.TableStatus;
 
 import javax.swing.*;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 
 import java.awt.*;
 import java.awt.event.MouseListener;
@@ -27,8 +25,8 @@ import java.util.List;
 
 // This can be a GUI with the table layout, and you can click on each table to
 // open up its
-public class TablesPage extends JPanel implements PropertyChangeListener {
-    private GUI parentFrame;
+public class TableSelectorPage extends JPanel implements PropertyChangeListener {
+    private MainView parentFrame;
     private FOHController mainControl;
 
     private JList<Booking> bookingsList;
@@ -39,7 +37,7 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
     private Map<JButton, Table> buttonTableMap;
     private Map<JButton, MouseListener> buttonMouseListenerMap;
 
-    public TablesPage(GUI parentFrame, FOHController mainControl) {
+    public TableSelectorPage(MainView parentFrame, FOHController mainControl) {
         this.parentFrame = parentFrame;
         this.mainControl = mainControl;
         this.bookingsModel = new DefaultListModel<>();
@@ -53,7 +51,6 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
         floorPlanPanel.setPreferredSize(new Dimension(800, 600));
         floorPlanPanel.setBackground(Color.WHITE);
         initTable();
-
 
         JPanel footerPanel = new JPanel(new FlowLayout());
         deallocateButton = new JButton("Deallocate Table");
@@ -87,7 +84,7 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
         int offsetY = 0;           // Initial offset from top
 
         for (Table table : mainControl.getTables()) {
-            JButton tableButton = new JButton("T" + table.getTableId());
+            JButton tableButton = new JButton(String.valueOf(table.getTableId()));
 
             tableButton.setBackground(Color.WHITE);
 
@@ -156,7 +153,7 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {  // Check for double-click
-                                OrdersPage op = new OrdersPage(parentFrame, new TableController(clickedTable));
+                                OrderPage op = new OrderPage(parentFrame, new OrderController(clickedTable));
                                 parentFrame.addCard(op, "OrdersPage");
                                 parentFrame.showCard("OrdersPage");
                             }
