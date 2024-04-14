@@ -3,8 +3,7 @@ package main.enums;
 public enum CourseStatus {
     PENDING,
     PREPARING,
-    READY,
-    SERVED
+    READY
 }
 
 
