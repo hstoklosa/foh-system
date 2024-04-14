@@ -5,14 +5,18 @@ import java.time.format.DateTimeFormatter;
 import main.entity.Table;
 
 public class Booking {
-    private String name;
+    private final int id;
+    private String firstName;
+    private String lastName;
     private String phoneNumber;
     private int tableSize;
     private LocalDateTime bookingTime;
     private Table table;
 
-    public Booking(String name, String phoneNumber, int tableSize, LocalDateTime bookingTime) {
-        this.name = name;
+    public Booking(int id, String firstName, String lastName, String phoneNumber, int tableSize, LocalDateTime bookingTime) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.tableSize = tableSize;
         this.bookingTime = bookingTime;
@@ -23,14 +27,18 @@ public class Booking {
     public String toString(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return String.format("Name: %s, Phone: %s, Tables for %d, Time: %s",
-                name,
+                firstName + " " + lastName,
                 phoneNumber,
                 tableSize,
                 bookingTime.format(formatter));
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public void setPhoneNumber(String phoneNumber) {
@@ -45,9 +53,29 @@ public class Booking {
         this.bookingTime = bookingTime;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-    public String getName() { return name; }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getPhoneNumber() { return phoneNumber; }
+
     public int getTableSize() { return tableSize; }
+
     public LocalDateTime getBookingTime() { return bookingTime; }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public void setTable(Table table) {
+        this.table = table;
+    }
+
+    public int getId() {
+        return id;
+    }
 }

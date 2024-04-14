@@ -1,5 +1,8 @@
 package main.ui;
 
+import main.controller.FOHController;
+import main.controller.TableController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -11,20 +14,17 @@ public class GUI extends JFrame {
     private final int DEFAULT_WIDTH;
     private final int DEFAULT_HEIGHT;
 
-    private JLabel dateTimeLabel;
+    private FOHController controller;
+
     private CardLayout cardLayout = new CardLayout();
     private JPanel cardsPanel = new JPanel(cardLayout);
+    private JLabel dateTimeLabel;
 
-    private BookingsPage bookingsPage;
-    private TablesPage tablesPage;
-    private HomePage homePage;
-    private OrdersPage ordersPage;
-    private PaymentPage paymentPage;
-
-    public GUI(int defaultWidth, int defaultHeight) {
-        super("Lancaster's - Front of House");
+    public GUI(int defaultWidth, int defaultHeight, FOHController controller) {
+        super("Lancaster's Restaurant - Front of House");
         this.DEFAULT_WIDTH = defaultWidth;
         this.DEFAULT_HEIGHT = defaultHeight;
+        this.controller = controller;
     }
 
     static {
@@ -48,16 +48,16 @@ public class GUI extends JFrame {
         setLocationByPlatform(true);
         setResizable(false); // don't let the frame be resized
 
-        homePage = new HomePage();
-        tablesPage = new TablesPage(this);
-        bookingsPage = new BookingsPage(this);
-        ordersPage = new OrdersPage(this);
-        paymentPage = new PaymentPage(this);
+        HomePage homePage = new HomePage();
+        TablesPage tablesPage = new TablesPage(this, controller);
+        BookingsPage bookingsPage = new BookingsPage(this, controller);
+//        OrdersPage ordersPage = new OrdersPage(this);
+        PaymentPage paymentPage = new PaymentPage(this);
 
         cardsPanel.add(homePage, "HomePage");
         cardsPanel.add(tablesPage, "TablesPage");
         cardsPanel.add(bookingsPage, "BookingsPage");
-        cardsPanel.add(ordersPage, "OrdersPage");
+//        cardsPanel.add(ordersPage, "OrdersPage");
         cardsPanel.add(paymentPage, "PaymentPage");
 
         this.add(cardsPanel, BorderLayout.CENTER);
@@ -73,6 +73,10 @@ public class GUI extends JFrame {
 
     public void showCard(String cardName) {
         cardLayout.show(cardsPanel, cardName);
+    }
+
+    public void addCard(Component comp, String cardName) {
+        cardsPanel.add(comp, cardName);
     }
 
     protected JPanel createNavigationBar() {
@@ -111,10 +115,11 @@ public class GUI extends JFrame {
         Image image = logo.getImage();
         Image newImg = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         logo = new ImageIcon(newImg);
+
         JLabel logoLabel = new JLabel(logo);
         headerPanel.add(logoLabel, BorderLayout.WEST);
 
-        JLabel nameLabel = new JLabel("Lancaster's");
+        JLabel nameLabel = new JLabel("Lancaster's ");
         nameLabel.setFont(new Font("Open Sans", Font.BOLD, 20).deriveFont(20f));
         nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         headerPanel.add(nameLabel, BorderLayout.CENTER);
@@ -165,17 +170,5 @@ public class GUI extends JFrame {
         menuBar.add(menuMenu);
 
         return menuBar;
-    }
-
-    public BookingsPage getBookingsPage() {
-        return bookingsPage;
-    }
-
-    public TablesPage getTablesPage() {
-        return tablesPage;
-    }
-
-    public HomePage getHomePage() {
-        return homePage;
     }
 }
