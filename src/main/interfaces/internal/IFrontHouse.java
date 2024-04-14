@@ -29,7 +29,6 @@ public interface IFrontHouse {
      * @param  day         A parameter coming from an Enum class.
      * @return HashMap     Returns a HashMap containing DISH_OBJECT:SALES_AMOUNT
      */
-
     HashMap<Dish, Integer> getSales(WeekDay day);
 
     /**
@@ -37,7 +36,5 @@ public interface IFrontHouse {
      * @return HashMap     Returns a HashMap containing TABLE_NUMBER:AMOUNT
      */
     HashMap<Integer, Integer> getBookings();
-
-
 
 }
