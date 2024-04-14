@@ -18,6 +18,13 @@ import java.util.ArrayList;
 public interface IKitchen {
 
     /**
+     * The method sends an order object to the kitchen subsystem. It has
+     * all the information required for the kitchen to prepare the dishes.
+     * @param order   Parameter coming from an Enum class.
+     */
+    void submitOrder(Order order);
+
+    /**
      * @param order The order containing the course to check for readiness.
      * @return CourseStatus Enum indicating the current status of the course.
      */
