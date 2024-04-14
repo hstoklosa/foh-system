@@ -54,6 +54,7 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
         floorPlanPanel.setBackground(Color.WHITE);
         initTable();
 
+
         JPanel footerPanel = new JPanel(new FlowLayout());
         deallocateButton = new JButton("Deallocate Table");
         deallocateButton.addActionListener(e -> System.out.println("XD"));
@@ -61,6 +62,7 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
         add(footerPanel, BorderLayout.SOUTH);
 
         JButton backButton = new JButton("Home");
+        backButton.setBackground(new Color(208, 207, 207));
         backButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
         backButton.addActionListener(e -> parentFrame.showCard("HomePage"));
         add(backButton, BorderLayout.NORTH);

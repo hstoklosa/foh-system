@@ -16,6 +16,11 @@ public class GUI extends JFrame {
 
     private FOHController controller;
 
+
+    private Color lancasterColor = new Color(43, 51, 54);
+    private Color fontColor = new Color(169, 168, 166);
+    private Color buttonColor = new Color(208, 207, 207);
+
     private CardLayout cardLayout = new CardLayout();
     private JPanel cardsPanel = new JPanel(cardLayout);
     private JLabel dateTimeLabel;
@@ -25,6 +30,30 @@ public class GUI extends JFrame {
         this.DEFAULT_WIDTH = defaultWidth;
         this.DEFAULT_HEIGHT = defaultHeight;
         this.controller = controller;
+
+        configureUI();
+    }
+
+    private void configureUI() {
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationByPlatform(true);
+        setResizable(false);
+
+        for(Component comp : cardsPanel.getComponents()){
+            comp.setBackground(lancasterColor);
+        }
     }
 
     static {
@@ -54,6 +83,12 @@ public class GUI extends JFrame {
 //        OrdersPage ordersPage = new OrdersPage(this);
         PaymentPage paymentPage = new PaymentPage(this);
 
+        homePage.setBackground(lancasterColor);
+//        tablesPage.setBackground(lancasterColor);
+//        bookingsPage.setBackground(lancasterColor);
+//        ordersPage.setBackground(lancasterColor);
+//        paymentPage.setBackground(lancasterColor);
+
         cardsPanel.add(homePage, "HomePage");
         cardsPanel.add(tablesPage, "TablesPage");
         cardsPanel.add(bookingsPage, "BookingsPage");
@@ -80,7 +115,9 @@ public class GUI extends JFrame {
     }
 
     protected JPanel createNavigationBar() {
-        JPanel navBarPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel navBarPanel = new JPanel(new BorderLayout());
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 4, 5, 0));
+
         JButton tablesButton = new JButton("Tables");
         JButton bookingsButton = new JButton("Bookings");
         JButton ordersButton = new JButton("Orders");
@@ -96,13 +133,24 @@ public class GUI extends JFrame {
         ordersButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
         paymentButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
 
+        tablesButton.setBackground(buttonColor);
+        bookingsButton.setBackground(buttonColor);
+        ordersButton.setBackground(buttonColor);
+        paymentButton.setBackground(buttonColor);
+
         JButton homeButton = new JButton("Home");
+        homeButton.setBackground(new Color(77,170,87));
         homeButton.addActionListener(e -> showCard("HomePage"));
 
-        navBarPanel.add(tablesButton);
-        navBarPanel.add(bookingsButton);
-        navBarPanel.add(ordersButton);
-        navBarPanel.add(paymentButton);
+        buttonPanel.add(tablesButton);
+        buttonPanel.add(bookingsButton);
+        buttonPanel.add(ordersButton);
+        buttonPanel.add(paymentButton);
+
+        buttonPanel.setBackground(lancasterColor);
+
+        navBarPanel.add(buttonPanel, BorderLayout.CENTER);
+        navBarPanel.setBorder(BorderFactory.createMatteBorder(3, 0, 0, 0, Color.GRAY));
 
         return navBarPanel;
     }
@@ -121,20 +169,22 @@ public class GUI extends JFrame {
 
         JLabel nameLabel = new JLabel("Lancaster's ");
         nameLabel.setFont(new Font("Open Sans", Font.BOLD, 20).deriveFont(20f));
+        nameLabel.setForeground(new Color(169, 168, 166));
         nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         headerPanel.add(nameLabel, BorderLayout.CENTER);
 
         dateTimeLabel = new JLabel();
         dateTimeLabel.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
+        dateTimeLabel.setForeground(new Color(169, 168, 166));
         dateTimeLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
 
         updateDateTime();
 
-        headerPanel.add(nameLabel, BorderLayout.WEST);
         headerPanel.add(dateTimeLabel, BorderLayout.EAST);
         new Timer(100, e -> updateDateTime()).start();
 
         headerPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.GRAY));
+        headerPanel.setBackground(lancasterColor);
 
         return headerPanel;
     }

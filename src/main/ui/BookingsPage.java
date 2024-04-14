@@ -31,8 +31,8 @@ public class BookingsPage extends JPanel {
         this.bookingsList.setFixedCellHeight(50);
         setLayout(new BorderLayout());
 
-
         JButton backButton = new JButton("Home");
+        backButton.setBackground(new Color(208, 207, 207));
         backButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
         backButton.addActionListener(e -> parentFrame.showCard("HomePage"));
         add(backButton, BorderLayout.NORTH);
