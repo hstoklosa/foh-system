@@ -2,18 +2,26 @@
 
 # Diagrams
 
-## Analysis (Class Diagram)
-<img src="https://uksouth1-mediap.svc.ms/transform/thumbnail?provider=spo&inputFormat=jpg&cs=fFNQTw&docid=https%3A%2F%2Fcityuni-my.sharepoint.com%3A443%2F_api%2Fv2.0%2Fdrives%2Fb!-uff-vvLjUyA31nE7sflAH44KfOFVtRMl5pdbeJEezrelj9NKX9lSbY9_vzwATVR%2Fitems%2F01RZDGLJSYCOLPXW7KFRELGD4IATDK65DA%3Fversion%3DPublished&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvY2l0eXVuaS1teS5zaGFyZXBvaW50LmNvbUBkZDYxNTk0OS01YmQwLTRkYTAtYWM1Mi0yOGVmOGQzMzYzNzMiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzMjAwMTZmYTE5NTYzQGxpdmUuY29tIiwiZW5kcG9pbnR1cmwiOiJhMWVOaTJLUUdMalIwYnd4QXVUeGJ2TDR6b2FjWlBmTW1rMFkrVDlFRTlFPSIsImVuZHBvaW50dXJsTGVuZ3RoIjoiMTE3IiwiZXhwIjoiMTcxMzA2MzYwMCIsImlwYWRkciI6IjgxLjExMS4xODcuOTAiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImlzcyI6IjAwMDAwMDAzLTAwMDAtMGZmMS1jZTAwLTAwMDAwMDAwMDAwMCIsImlzdXNlciI6InRydWUiLCJuYW1laWQiOiIwIy5mfG1lbWJlcnNoaXB8aHViZXJ0LnN0b2tsb3NhQGNpdHkuYWMudWsiLCJuYmYiOiIxNzEzMDQyMDAwIiwibmlpIjoibWljcm9zb2Z0LnNoYXJlcG9pbnQiLCJzaWQiOiJlOTkxNmY0MC00ZjAyLTRkYTYtODUxYS1iZmFkNzQ0YzVhNDkiLCJzaWduaW5fc3RhdGUiOiJbXCJrbXNpXCJdIiwic2l0ZWlkIjoiWm1Ga1ptVTNabUV0WTJKbVlpMDBZemhrTFRnd1pHWXROVGxqTkdWbFl6ZGxOVEF3Iiwic25pZCI6IjYiLCJzdHAiOiJ0IiwidHQiOiIwIiwidmVyIjoiaGFzaGVkcHJvb2Z0b2tlbiJ9.AGTLmNfhW0-CoZK9EcbGIXGXAAsEDzyX6ALiJCbj3ak&cTag=%22c%3A%7BFB961358-EADB-482C-B30F-8804C6AF7460%7D%2C1%22&encodeFailures=1&width=346&height=230&srcWidth=1381&srcHeight=920" alt="Analysis Class Diagram" width="100%"/>
+## Analysis (Use Case Diagram)
 
+## Analysis (Class Diagram)
+
+<img src="https://raw.githubusercontent.com/hstoklosa/foh-system/main/data/diagrams/ANALYSIS_CLASS_DIAGRAM.jpg?token=GHSAT0AAAAAACOMFG2EVX5EHTPXZSQLCJP2ZQ4HCNA" alt="Analysis Class Diagram" width="100%"/>
 
 ## Design (Class Diagram)
+
+...
+
+## Database (ERD Diagram)
+
 ...
 
 # Database Information
-Database name:  in2033t04
 
-Admin user:  in2033t04_a
+Database name: in2033t04
+
+Admin user: in2033t04_a
 Admin password: FREK6PsYUCw
 
-Data user:  in2033t04_d
+Data user: in2033t04_d
 Data password: AyT7knKoxuc
