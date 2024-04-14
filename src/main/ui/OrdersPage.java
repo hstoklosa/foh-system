@@ -18,6 +18,7 @@ public class OrdersPage extends JPanel{
     private JList<String> course1List, course2List, course3List; //Lists for the 3 courses
     private DefaultListModel<String> course1Model, course2Model, course3Model;
     private JLabel course1StatusLabel, course2StatusLabel, course3StatusLabel; //Status labels for 3 courses
+    private JLabel totalPrice1Label, totalPrice2Label, totalPrice3Label;
     private JButton addToOrderButton, removeFromOrderButton, sendToKitchenButton;
     private Order currentOrder; //The order being manipulated (the whole thing. all 3 courses)
 
@@ -55,6 +56,10 @@ public class OrdersPage extends JPanel{
         course2StatusLabel = new JLabel("Pending");
         course3StatusLabel = new JLabel("Pending");
 
+        totalPrice1Label = new JLabel("Total: £0.00");
+        totalPrice2Label = new JLabel("Total: £0.00");
+        totalPrice3Label = new JLabel("Total: £0.00");
+
         addToOrderButton = new JButton("Add to Order");
         addToOrderButton.setBackground(new Color(208, 207, 207));
         removeFromOrderButton = new JButton("Remove from Order");
@@ -77,9 +82,9 @@ public class OrdersPage extends JPanel{
         centerPanel.add(new JScrollPane(orderList));
 
         JPanel coursesPanel = new JPanel(new GridLayout(1, 3));
-        coursesPanel.add(createCoursePanel(course1List, course1Model, course1StatusLabel, addToOrderButton));
-        coursesPanel.add(createCoursePanel(course2List, course2Model, course2StatusLabel, removeFromOrderButton));
-        coursesPanel.add(createCoursePanel(course3List, course3Model, course3StatusLabel, sendToKitchenButton));
+        coursesPanel.add(createCoursePanel(course1List, course1Model, course1StatusLabel, totalPrice1Label, addToOrderButton));
+        coursesPanel.add(createCoursePanel(course2List, course2Model, course2StatusLabel, totalPrice2Label, removeFromOrderButton));
+        coursesPanel.add(createCoursePanel(course3List, course3Model, course3StatusLabel, totalPrice3Label, sendToKitchenButton));
 
         setLayout(new BorderLayout());
         add(northPanel, BorderLayout.NORTH);
@@ -90,11 +95,12 @@ public class OrdersPage extends JPanel{
     /*
     This method creates the 3 boxes, along with the labels and buttons. If you touch this, I think everything explodes
      */
-    private JPanel createCoursePanel(JList<String> list, DefaultListModel<String> model, JLabel statusLabel, JButton button) {
+    private JPanel createCoursePanel(JList<String> list, DefaultListModel<String> model, JLabel statusLabel, JLabel totalPriceLabel, JButton button) {
         JPanel panel = new JPanel(new BorderLayout());
-        JPanel headerPanel = new JPanel(new GridLayout(2, 1));
+        JPanel headerPanel = new JPanel(new GridLayout(3, 1));
         headerPanel.add(button);
         headerPanel.add(statusLabel);
+        headerPanel.add(totalPriceLabel);
         panel.add(headerPanel, BorderLayout.NORTH);
         panel.add(new JScrollPane(list), BorderLayout.CENTER);
         return panel;
