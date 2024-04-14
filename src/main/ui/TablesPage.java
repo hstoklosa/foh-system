@@ -49,6 +49,7 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
 
         for (int i = 1; i <= 15; i++){
             JButton tableButton = new JButton("T" + i);
+            tableButton.setBackground(new Color(208, 207, 207));
             int col = (i - 1) % cols;
             int row = (i - 1) / cols;
             int x = offsetX + col * (tableWidth + horizontalSpacing);
@@ -73,6 +74,7 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
         add(new JScrollPane(floorPlanPanel), BorderLayout.CENTER);
 
         JButton backButton = new JButton("Home");
+        backButton.setBackground(new Color(208, 207, 207));
         backButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
         backButton.addActionListener(e -> parentFrame.showCard("HomePage"));
         add(backButton, BorderLayout.NORTH);

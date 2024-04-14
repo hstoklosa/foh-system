@@ -24,6 +24,7 @@ public class OrdersPage extends JPanel{
 
     public OrdersPage(GUI parentFrame){
         this.parentFrame = parentFrame;
+        parentFrame.setBackground(new Color(208, 207, 207));
         setLayout(new BorderLayout());
         initializeComponents();
         configureLayout();
@@ -36,6 +37,9 @@ public class OrdersPage extends JPanel{
         courseSelector = new JComboBox<>(new String[]{"Course 1", "Course 2", "Course 3"});
         courseSelector.addActionListener(e -> updateOrderListForSelectedCourse());
 
+        tableSelector.setBackground(new Color(208, 207, 207));
+        courseSelector.setBackground(new Color(208, 207, 207));
+
         tableOrders = new HashMap<>();
 
         menuModel = new DefaultListModel<>();
@@ -47,8 +51,11 @@ public class OrdersPage extends JPanel{
         orderList = new JList<>(orderModel);
 
         addToOrderButton = new JButton("Add to Order");
+        addToOrderButton.setBackground(new Color(208, 207, 207));
         removeFromOrderButton = new JButton("Remove from Order");
+        removeFromOrderButton.setBackground(new Color(208, 207, 207));
         sendToKitchenButton = new JButton("Send to Kitchen");
+        sendToKitchenButton.setBackground(new Color(208, 207, 207));
 
         addToOrderButton.addActionListener(e -> addSelectedDishToOrder());
         removeFromOrderButton.addActionListener(e -> removeSelectedDishFromOrder());

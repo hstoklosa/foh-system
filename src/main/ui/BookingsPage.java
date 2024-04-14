@@ -32,16 +32,19 @@ public class BookingsPage extends JPanel {
 
         JPanel footerPanel = new JPanel(new FlowLayout());
         JButton addButton = new JButton("Add Booking");
+        addButton.setBackground(new Color(208, 207, 207));
         addButton.addActionListener(e -> addBooking());
         footerPanel.add(addButton);
 
         JButton removeButton = new JButton("Remove Booking");
+        removeButton.setBackground(new Color(208, 207, 207));
         removeButton.addActionListener(e -> removeBooking());
         footerPanel.add(removeButton);
 
         add(footerPanel, BorderLayout.SOUTH);
 
         JButton backButton = new JButton("Home");
+        backButton.setBackground(new Color(208, 207, 207));
         backButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
         backButton.addActionListener(e -> parentFrame.showCard("HomePage"));
         add(backButton, BorderLayout.NORTH);

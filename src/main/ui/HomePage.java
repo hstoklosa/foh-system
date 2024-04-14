@@ -12,7 +12,6 @@ public class HomePage extends JPanel {
 
     private JPanel createOverviewPanel() {
         JPanel panel = new JPanel(new GridLayout(2, 2, 10, 10));  // Grid layout for simple organization
-
         // Add components to the overview panel
         panel.add(new JLabel("thing 1"));
         panel.add(new JLabel("thing 2"));
