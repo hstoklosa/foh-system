@@ -11,14 +11,11 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import java.awt.*;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +35,7 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
     private JButton deallocateButton;
     private Map<JButton, Table> buttonTableMap;
     private Map<JButton, MouseListener> buttonMouseListenerMap;
+    private Map<JButton, MouseMotionListener> buttonMotionListenerMap;
 
     public TablesPage(GUI parentFrame, FOHController mainControl) {
         this.parentFrame = parentFrame;
@@ -46,6 +44,7 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
         this.bookingsList = new JList<>(bookingsModel);
         this.buttonTableMap = new HashMap<>();
         this.buttonMouseListenerMap = new HashMap<>();
+        this.buttonMotionListenerMap = new HashMap<>();
 
         setLayout(new BorderLayout());
 
@@ -150,7 +149,9 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
                     targetButton.setBackground(Color.RED);
 
                     MouseListener ml = buttonMouseListenerMap.get(targetButton);
+                    MouseMotionListener mml = buttonMotionListenerMap.get(targetButton);
                     targetButton.removeMouseListener(ml);
+                    targetButton.removeMouseMotionListener(mml);
 
                     MouseListener tableButtonListener = new MouseAdapter() {
                         @Override
@@ -190,7 +191,8 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
             }
         });
 
-        comp.addMouseMotionListener(new MouseMotionAdapter() {
+        MouseMotionListener motionListener = new MouseMotionAdapter() {
+
             @Override
             public void mouseDragged(MouseEvent e) {
                 int x = comp.getX() + e.getX() - anchorPoint[0].x;
@@ -214,6 +216,9 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
                 comp.setLocation(x, y);
                 comp.getParent().repaint();
             }
-        });
+        };
+
+        comp.addMouseMotionListener(motionListener);
+        buttonMotionListenerMap.put((JButton) comp, motionListener);
     }
 }
