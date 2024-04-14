@@ -76,7 +76,9 @@ public class GUI extends JFrame {
     }
 
     protected JPanel createNavigationBar() {
-        JPanel navBarPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel navBarPanel = new JPanel(new BorderLayout());
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 4, 5, 0));
+
         JButton tablesButton = new JButton("Tables");
         JButton bookingsButton = new JButton("Bookings");
         JButton ordersButton = new JButton("Orders");
@@ -95,10 +97,13 @@ public class GUI extends JFrame {
         JButton homeButton = new JButton("Home");
         homeButton.addActionListener(e -> showCard("HomePage"));
 
-        navBarPanel.add(tablesButton);
-        navBarPanel.add(bookingsButton);
-        navBarPanel.add(ordersButton);
-        navBarPanel.add(paymentButton);
+        buttonPanel.add(tablesButton);
+        buttonPanel.add(bookingsButton);
+        buttonPanel.add(ordersButton);
+        buttonPanel.add(paymentButton);
+
+        navBarPanel.add(buttonPanel, BorderLayout.CENTER);
+        navBarPanel.setBorder(BorderFactory.createMatteBorder(3, 0, 0, 0, Color.GRAY));
 
         return navBarPanel;
     }
