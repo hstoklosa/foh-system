@@ -8,13 +8,21 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class GUI extends JFrame {
-    private JLabel dateTimeLabel;
-    private CardLayout cardLayout = new CardLayout();
-    private JPanel cardsPanel = new JPanel(cardLayout);
     private final int DEFAULT_WIDTH;
     private final int DEFAULT_HEIGHT;
 
+    private JLabel dateTimeLabel;
+    private CardLayout cardLayout = new CardLayout();
+    private JPanel cardsPanel = new JPanel(cardLayout);
+
+    private BookingsPage bookingsPage;
+    private TablesPage tablesPage;
+    private HomePage homePage;
+    private OrdersPage ordersPage;
+    private PaymentPage paymentPage;
+
     public GUI(int defaultWidth, int defaultHeight) {
+        super("Lancaster's - Front of House");
         this.DEFAULT_WIDTH = defaultWidth;
         this.DEFAULT_HEIGHT = defaultHeight;
     }
@@ -22,7 +30,6 @@ public class GUI extends JFrame {
     static {
         try {
             // SEE: https://stackoverflow.com/questions/5652344/how-can-i-use-a-custom-font-in-java
-
             GraphicsEnvironment ge =
                     GraphicsEnvironment.getLocalGraphicsEnvironment();
 
@@ -41,13 +48,11 @@ public class GUI extends JFrame {
         setLocationByPlatform(true);
         setResizable(false); // don't let the frame be resized
 
-        HomePage homePage = new HomePage();
-
-
-        TablesPage tablesPage = new TablesPage(this);
-        BookingsPage bookingsPage = new BookingsPage(this);
-        OrdersPage ordersPage = new OrdersPage(this);
-        PaymentPage paymentPage = new PaymentPage(this);
+        homePage = new HomePage();
+        tablesPage = new TablesPage(this);
+        bookingsPage = new BookingsPage(this);
+        ordersPage = new OrdersPage(this);
+        paymentPage = new PaymentPage(this);
 
         cardsPanel.add(homePage, "HomePage");
         cardsPanel.add(tablesPage, "TablesPage");
@@ -56,10 +61,7 @@ public class GUI extends JFrame {
         cardsPanel.add(paymentPage, "PaymentPage");
 
         this.add(cardsPanel, BorderLayout.CENTER);
-
-        add(createHeaderPanel(), BorderLayout.NORTH);
-
-        createMenuBar();
+//        this.add(createMenuBar(), BorderLayout.NORTH);
         this.add(createHeaderPanel(), BorderLayout.NORTH);
         this.add(createNavigationBar(), BorderLayout.SOUTH);
 
@@ -69,11 +71,11 @@ public class GUI extends JFrame {
         setVisible(true);
     }
 
-    public void showCard(String cardName){
+    public void showCard(String cardName) {
         cardLayout.show(cardsPanel, cardName);
     }
 
-    protected JPanel createNavigationBar(){
+    protected JPanel createNavigationBar() {
         JPanel navBarPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton tablesButton = new JButton("Tables");
         JButton bookingsButton = new JButton("Bookings");
@@ -91,7 +93,7 @@ public class GUI extends JFrame {
         paymentButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
 
         JButton homeButton = new JButton("Home");
-        homeButton.addActionListener(e -> showCard("ContentPanel"));
+        homeButton.addActionListener(e -> showCard("HomePage"));
 
         navBarPanel.add(tablesButton);
         navBarPanel.add(bookingsButton);
@@ -101,7 +103,7 @@ public class GUI extends JFrame {
         return navBarPanel;
     }
 
-    protected JPanel createHeaderPanel(){
+    protected JPanel createHeaderPanel() {
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setPreferredSize(new Dimension(800, 50));
 
@@ -119,12 +121,12 @@ public class GUI extends JFrame {
 
         dateTimeLabel = new JLabel();
         dateTimeLabel.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
-        updateDateTime();
-
         dateTimeLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
 
-        headerPanel.add(dateTimeLabel, BorderLayout.EAST);
+        updateDateTime();
 
+        headerPanel.add(nameLabel, BorderLayout.WEST);
+        headerPanel.add(dateTimeLabel, BorderLayout.EAST);
         new Timer(100, e -> updateDateTime()).start();
 
         headerPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.GRAY));
@@ -132,23 +134,48 @@ public class GUI extends JFrame {
         return headerPanel;
     }
 
-    private void updateDateTime(){
+    private void updateDateTime() {
         String format = "EEEE, MMMM dd, yyyy HH:mm:ss";
         SimpleDateFormat date = new SimpleDateFormat(format);
-
         dateTimeLabel.setText(date.format(Calendar.getInstance().getTime()));
     }
 
-    private JMenuBar createMenuBar(){
+    private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
 
+        // File Section
         JMenuItem fileMenu = new JMenu("File");
+        JMenuItem homeMenuItem = new JMenuItem("Home");
+        homeMenuItem.addActionListener(e -> System.exit(0));
+
         JMenuItem exitItem = new JMenuItem("Exit");
         exitItem.addActionListener(e -> System.exit(0));
+
+        fileMenu.add(homeMenuItem);
         fileMenu.add(exitItem);
 
+        // Menu section
+        JMenuItem menuMenu = new JMenu("Menu");
+        JMenuItem printMenuItem = new JMenuItem("Print");
+        printMenuItem.addActionListener(e -> System.exit(0));
+        menuMenu.add(printMenuItem);
+
+        // Compile menubar
         menuBar.add(fileMenu);
+        menuBar.add(menuMenu);
 
         return menuBar;
+    }
+
+    public BookingsPage getBookingsPage() {
+        return bookingsPage;
+    }
+
+    public TablesPage getTablesPage() {
+        return tablesPage;
+    }
+
+    public HomePage getHomePage() {
+        return homePage;
     }
 }

@@ -36,7 +36,6 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
         bookingsModel = new DefaultListModel<>();
         bookingsList = new JList<>(bookingsModel);
 
-
         JPanel floorPlanPanel = new JPanel(null);
         floorPlanPanel.setPreferredSize(new Dimension(800, 600));
 
