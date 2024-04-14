@@ -1,13 +1,17 @@
 package main.ui;
 
+import main.controller.FOHController;
+import main.controller.TableController;
 import main.entity.Booking;
 import main.entity.Table;
+import main.enums.TableStatus;
 
 import javax.swing.*;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
-import java.awt.*;
 
+import java.awt.*;
+import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -16,61 +20,45 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
 
 
 // This can be a GUI with the table layout, and you can click on each table to
 // open up its
 public class TablesPage extends JPanel implements PropertyChangeListener {
     private GUI parentFrame;
-
-    private DefaultListModel<Table> tablesModel;
+    private FOHController mainControl;
 
     private JList<Booking> bookingsList;
     private DefaultListModel<Booking> bookingsModel;
 
+    private JPanel floorPlanPanel;
+    private JButton deallocateButton;
+    private Map<JButton, Table> buttonTableMap;
+    private Map<JButton, MouseListener> buttonMouseListenerMap;
 
-    public TablesPage(GUI parentFrame){
+    public TablesPage(GUI parentFrame, FOHController mainControl) {
         this.parentFrame = parentFrame;
+        this.mainControl = mainControl;
+        this.bookingsModel = new DefaultListModel<>();
+        this.bookingsList = new JList<>(bookingsModel);
+        this.buttonTableMap = new HashMap<>();
+        this.buttonMouseListenerMap = new HashMap<>();
 
         setLayout(new BorderLayout());
-        bookingsModel = new DefaultListModel<>();
-        bookingsList = new JList<>(bookingsModel);
 
-        JPanel floorPlanPanel = new JPanel(null);
+        floorPlanPanel = new JPanel(null);
         floorPlanPanel.setPreferredSize(new Dimension(800, 600));
+        floorPlanPanel.setBackground(Color.WHITE);
+        initTable();
 
-        int cols = 5;  // Total number of columns
-        int tableWidth = 78;
-        int tableHeight = 73;
-        int horizontalSpacing = 78; // Space between tables horizontally
-        int verticalSpacing = 73;   // Space between tables vertically
-        int offsetX = 0;           // Initial offset from left
-        int offsetY = 0;           // Initial offset from top
-
-        for (int i = 1; i <= 15; i++){
-            JButton tableButton = new JButton("T" + i);
-            int col = (i - 1) % cols;
-            int row = (i - 1) / cols;
-            int x = offsetX + col * (tableWidth + horizontalSpacing);
-            int y = offsetY + row * (tableHeight + verticalSpacing);
-
-            tableButton.setBounds(x, y, tableWidth, tableHeight);
-            makeComponentDraggable(tableButton);
-
-
-            tableButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
-            tableButton.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (e.getButton() == MouseEvent.BUTTON3){
-                        popUp();
-                    }
-                }
-            });
-            floorPlanPanel.add(tableButton);
-        }
-
-        add(new JScrollPane(floorPlanPanel), BorderLayout.CENTER);
+        JPanel footerPanel = new JPanel(new FlowLayout());
+        deallocateButton = new JButton("Deallocate Table");
+        deallocateButton.addActionListener(e -> System.out.println("XD"));
+        footerPanel.add(deallocateButton);
+        add(footerPanel, BorderLayout.SOUTH);
 
         JButton backButton = new JButton("Home");
         backButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
@@ -82,35 +70,64 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
         add(floorPlanPanel, BorderLayout.CENTER);
     }
 
-    public void addTable(Table table) {
-        table.addPropertyChangeListener(this);
-        tablesModel.addElement(table);
-    }
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 
     }
 
-    private void popUp(){
-//        JDialog popUp = new JDialog(parentFrame);
-//        popUp.setSize(400, 300);
-//        Booking booking = new Booking("Asad", "328910381", 3, LocalDateTime.now());
-//        popUp.add(new JScrollPane(bookingsList), BorderLayout.CENTER);
-//        popUp.setVisible(true);
-//        bookingsModel.addElement(booking);
-//        bookingsList.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                if (e.getClickCount() == 2 && !e.isConsumed()) {
-//                    System.out.println(e.getClickCount());
-//                    e.consume();
-//                    Booking selectedBooking = bookingsList.getSelectedValue();
-//                    popUp.setVisible(false);
-//                }
-//            }
-//        });
+    public void initTable() {
+        int cols = 5;               // Total number of columns
+        int tableWidth = 78;
+        int tableHeight = 73;
+        int horizontalSpacing = 78; // Space between tables horizontally
+        int verticalSpacing = 73;   // Space between tables vertically
+        int offsetX = 0;            // Initial offset from left
+        int offsetY = 0;           // Initial offset from top
+
+        for (Table table : mainControl.getTables()) {
+            JButton tableButton = new JButton("T" + table.getTableId());
+
+            tableButton.setBackground(Color.WHITE);
+
+            int col = (table.getTableId() - 1) % cols;
+            int row = (table.getTableId() - 1) / cols;
+            int x = offsetX + col * (tableWidth + horizontalSpacing);
+            int y = offsetY + row * (tableHeight + verticalSpacing);
+
+            tableButton.setBounds(x, y, tableWidth, tableHeight);
+
+            if (table.getStatus().equals(TableStatus.FREE)) {
+                makeComponentDraggable(tableButton);
+            }
+
+            tableButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
+
+            MouseListener tableButtonListener = new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {  // Check for double-click
+                        popUp((JButton) e.getSource());
+                    }
+                }
+            };
+
+            buttonMouseListenerMap.put(tableButton, tableButtonListener);
+            tableButton.addMouseListener(tableButtonListener);
+
+            floorPlanPanel.add(tableButton);
+            buttonTableMap.put(tableButton, table);  // Map the button to the Table object
+        }
+
+        add(new JScrollPane(floorPlanPanel), BorderLayout.CENTER);
+    }
+
+    private void popUp(JButton targetButton) {
         // Scroll pane for JList
+        bookingsModel.clear();
+        for (Booking bk : mainControl.getCurrentBookings()) {
+            bookingsModel.addElement(bk);
+        }
+
         JScrollPane scrollPane = new JScrollPane(bookingsList);
         scrollPane.setPreferredSize(new Dimension(500, 100));
 
@@ -119,14 +136,34 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
         popup.add(scrollPane);
         popup.setFocusable(false);
 
-        Booking booking = new Booking("Asad", "328910381", 3, LocalDateTime.now());
-        bookingsModel.addElement(booking);
-
         // Mouse listener to handle double-clicks
         bookingsList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
+                    Table clickedTable = buttonTableMap.get(targetButton);
+                    Booking selectedBooking = bookingsList.getSelectedValue();
+
+                    selectedBooking.setTable(clickedTable);
+                    targetButton.setBackground(Color.RED);
+
+                    MouseListener ml = buttonMouseListenerMap.get(targetButton);
+                    targetButton.removeMouseListener(ml);
+
+                    MouseListener tableButtonListener = new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {  // Check for double-click
+                                OrdersPage op = new OrdersPage(parentFrame, new TableController(clickedTable));
+                                parentFrame.addCard(op, "OrdersPage");
+                                parentFrame.showCard("OrdersPage");
+                            }
+                        }
+                    };
+                    targetButton.addMouseListener(tableButtonListener);
+                    buttonMouseListenerMap.put(targetButton, tableButtonListener);
+
+                    System.out.println(selectedBooking.getTable());
                     popup.setVisible(false);  // Close the popup
                 }
             }
@@ -157,8 +194,8 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
                 int x = comp.getX() + e.getX() - anchorPoint[0].x;
                 int y = comp.getY() + e.getY() - anchorPoint[0].y;
 
-                x = Math.round((float)x / 78) * 78;
-                y = Math.round((float)y / 73) * 73;
+                x = Math.round((float) x / 78) * 78;
+                y = Math.round((float) y / 73) * 73;
 
                 x = Math.max(0, Math.min(x, comp.getParent().getWidth() - comp.getWidth()));
                 y = Math.max(0, Math.min(y, comp.getParent().getHeight() - comp.getHeight()));
