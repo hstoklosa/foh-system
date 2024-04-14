@@ -1,5 +1,6 @@
 package main.ui;
 
+import main.controller.TableController;
 import main.entity.Course;
 import main.entity.Dish;
 import main.entity.Order;
@@ -12,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class OrdersPage extends JPanel{
-
     private GUI parentFrame;
     private JComboBox<String> tableSelector, courseSelector;
     private JList<Dish> menuList;
@@ -22,8 +22,12 @@ public class OrdersPage extends JPanel{
     private JButton addToOrderButton, removeFromOrderButton, sendToKitchenButton;
     private Map<String, Order> tableOrders;
 
-    public OrdersPage(GUI parentFrame){
+    private TableController controller;
+
+    public OrdersPage(GUI parentFrame, TableController controller){
         this.parentFrame = parentFrame;
+        this.controller = controller;
+
         setLayout(new BorderLayout());
         initializeComponents();
         configureLayout();
@@ -77,14 +81,14 @@ public class OrdersPage extends JPanel{
 
     private void updateOrderListForSelectedTable(){
         String selectedTable = normalizeKey((String) tableSelector.getSelectedItem());
-        if(selectedTable != null){
+
+        if (selectedTable != null) {
             Order order = tableOrders.computeIfAbsent(selectedTable, k -> {
                 System.out.println("Creating a new order for table: " + k);
                 return new Order(generateOrderId(), Integer.parseInt(k.substring(6).trim()));
             });
             updateOrderListForSelectedCourse();
-        }
-        else{
+        } else {
             System.out.println("no Table Selected");
         }
     }
