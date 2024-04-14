@@ -14,8 +14,18 @@ public class BookingsPage extends JPanel {
     private JList<Booking> bookingsList;
     private DefaultListModel<Booking> bookingsModel;
 
+    private JDialog form;
+    private JButton submitForm;
+    public JTextArea name = new JTextArea();
+    public JTextArea phone = new JTextArea();
+    public JTextArea seats = new JTextArea();
+
+    private JButton addButton;
+    private JButton removeButton;
+
     public BookingsPage(GUI parentFrame) {
         setLayout(new BorderLayout());
+
         bookingsModel = new DefaultListModel<>();
         bookingsList = new JList<>(bookingsModel);
         add(new JScrollPane(bookingsList), BorderLayout.CENTER);
@@ -45,6 +55,22 @@ public class BookingsPage extends JPanel {
                 }
             }
         });
+
+//        this.form = new JDialog(parentFrame);
+//        this.form.setSize(200, 300);
+//        this.form.setLayout(new BorderLayout());
+//
+//        JPanel inputContainer = new JPanel();
+//        inputContainer.setLayout(new BoxLayout(inputContainer, BoxLayout.Y_AXIS));
+//        inputContainer.add(name);
+//        inputContainer.add(phone);
+//        inputContainer.add(seats);
+//        this.form.add(inputContainer, BorderLayout.CENTER);
+//
+//        this.submitForm = new JButton("Save");
+//        this.form.add(submitForm, BorderLayout.SOUTH);
+//
+//        this.form.setVisible(true);
     }
 
     private void addBooking() {
@@ -90,13 +116,24 @@ public class BookingsPage extends JPanel {
         }
     }
 
-    private void removeBooking(){
+    private void removeBooking() {
         Booking selectedBooking = bookingsList.getSelectedValue();
-        if(selectedBooking != null){
+        if (selectedBooking != null) {
             bookingsModel.removeElement(selectedBooking);
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(this, "No booking selected.", "Error: No booking selected", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public DefaultListModel<Booking> getBookingsModel() {
+        return bookingsModel;
+    }
+
+    public JButton getAddButton() {
+        return addButton;
+    }
+
+    public JButton getSubmitForm() {
+        return submitForm;
     }
 }
