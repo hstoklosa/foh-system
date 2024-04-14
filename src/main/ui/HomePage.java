@@ -1,18 +1,23 @@
 package main.ui;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
-public class HomePage extends JPanel{
+public class HomePage extends JPanel {
 
-    public HomePage(){
+    public HomePage() {
         setLayout(new BorderLayout());
+        add(createOverviewPanel(), BorderLayout.CENTER);
+    }
 
-        this.setLayout(new BorderLayout());
+    private JPanel createOverviewPanel() {
+        JPanel panel = new JPanel(new GridLayout(2, 2, 10, 10));  // Grid layout for simple organization
 
+        // Add components to the overview panel
+        panel.add(new JLabel("thing 1"));
+        panel.add(new JLabel("thing 2"));
 
+        // You can replace these JLabels with more complex components as needed
+        return panel;
     }
 }

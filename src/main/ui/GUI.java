@@ -105,10 +105,17 @@ public class GUI extends JFrame {
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setPreferredSize(new Dimension(800, 50));
 
+        ImageIcon logo = new ImageIcon("src/resources/images/logo.jpeg");
+        Image image = logo.getImage();
+        Image newImg = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        logo = new ImageIcon(newImg);
+        JLabel logoLabel = new JLabel(logo);
+        headerPanel.add(logoLabel, BorderLayout.WEST);
+
         JLabel nameLabel = new JLabel("Lancaster's");
         nameLabel.setFont(new Font("Open Sans", Font.BOLD, 20).deriveFont(20f));
-
         nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        headerPanel.add(nameLabel, BorderLayout.CENTER);
 
         dateTimeLabel = new JLabel();
         dateTimeLabel.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
@@ -116,10 +123,11 @@ public class GUI extends JFrame {
 
         dateTimeLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
 
-        headerPanel.add(nameLabel, BorderLayout.WEST);
         headerPanel.add(dateTimeLabel, BorderLayout.EAST);
 
         new Timer(100, e -> updateDateTime()).start();
+
+        headerPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.GRAY));
 
         return headerPanel;
     }
