@@ -9,12 +9,6 @@ public class OrderController {
         this.table = table;
     }
 
-    public void createOrder() {
-        if (table.getOrder() == null) {
-//            table.setOrder();
-        }
-    }
-
     public Table getTable() {
         return table;
     }

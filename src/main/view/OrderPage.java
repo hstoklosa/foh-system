@@ -32,7 +32,7 @@ public class OrderPage extends JPanel {
         this.parentFrame = parentFrame;
         this.controller = controller;
 
-        this.currentOrder = new Order(1);
+        this.currentOrder = new Order(1, 0);
 
         setLayout(new BorderLayout());
         createUIElements(); // creates UI
@@ -124,8 +124,6 @@ public class OrderPage extends JPanel {
     */
     private void updateOrderListForSelectedCourse() {
         int courseIndex = courseSelector.getSelectedIndex();
-        Order order = controller.getTable().getOrder();
-        Course c = order.getCurrentCourse();
         Course course = currentOrder.getCourses().get(courseIndex);
 
         orderModel.clear();
