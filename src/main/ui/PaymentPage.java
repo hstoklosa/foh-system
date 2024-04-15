@@ -5,7 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class PaymentPage extends JPanel {
-    private JComboBox<String> comboDiscount;
+    private JComboBox<String> discount;
+    private JComboBox<Integer> split;
     private JTextField fieldAmount;
 
     public PaymentPage(GUI parentFrame) {
@@ -27,9 +28,14 @@ public class PaymentPage extends JPanel {
         comboPaymentMethod.setBackground(new Color(208, 207, 207));
 
         JLabel labelDiscount = new JLabel("Discount:");
-        comboDiscount = new JComboBox<>(new String[]{"0%", "10%", "20%", "30%"});
-        comboDiscount.setBackground(new Color(208, 207, 207));
-        comboDiscount.addActionListener(this::applyDiscount);
+        discount = new JComboBox<>(new String[]{"0%", "10%", "20%", "30%"});
+        discount.setBackground(new Color(208, 207, 207));
+        discount.addActionListener(this::applyDiscount);
+
+        JLabel labelSplit = new JLabel("Split Bill:");
+        split = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5, 6});
+        split.setBackground(new Color(208, 207, 207));
+        split.addActionListener(this::splitBill);
 
         JButton payButton = new JButton("Pay");
         payButton.setBackground(new Color(208, 207, 207));
@@ -45,7 +51,9 @@ public class PaymentPage extends JPanel {
         paymentForm.add(labelPaymentMethod);
         paymentForm.add(comboPaymentMethod);
         paymentForm.add(labelDiscount);
-        paymentForm.add(comboDiscount);
+        paymentForm.add(discount);
+        paymentForm.add(labelSplit);
+        paymentForm.add(split);
         paymentForm.add(payButton);
         paymentForm.add(printReceiptButton);
 
@@ -54,12 +62,22 @@ public class PaymentPage extends JPanel {
     }
 
     private void applyDiscount(ActionEvent e){
-        String selectedDiscount = (String) comboDiscount.getSelectedItem();
-        double discountRate = Integer.parseInt(selectedDiscount.trim().replace("%", "")) / 100.0;
+        updateAmount();
+    }
+
+    private void splitBill(ActionEvent e){
+        updateAmount();
+    }
+
+    private void updateAmount(){
         double originalAmount = Double.parseDouble(fieldAmount.getText().trim());
+        int splitWays = (Integer) split.getSelectedItem();
+        double discountRate = Integer.parseInt(((String) discount.getSelectedItem()).replace("%", "").trim()) / 100.0;
         double discountedAmount = originalAmount * (1 - discountRate);
-        fieldAmount.setText(String.format("%.2f", discountedAmount));
-        System.out.println("Discount applied: " + discountRate + ", New Amount: " + discountedAmount);
+        double splitAmount = discountedAmount / splitWays;
+
+        fieldAmount.setText(String.format("%.2f", splitAmount));
+
     }
 
     private void processPayment() {
