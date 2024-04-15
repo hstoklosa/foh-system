@@ -50,8 +50,11 @@ public class DBConnection implements IDBConnection, IDBTransaction {
     @Override
     public void closeConnection(Connection conn) {
         try {
-            if (conn != null && !conn.isClosed())
+            if (conn != null && !conn.isClosed()) {
                 conn.close();
+                System.out.println("Database connection has been closed.");
+            }
+
         } catch (SQLException sqle) {
             System.err.println("DB_CLOSE_ERROR: " + sqle.getMessage());
         }

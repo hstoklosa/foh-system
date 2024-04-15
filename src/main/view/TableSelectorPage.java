@@ -159,7 +159,6 @@ public class TableSelectorPage extends JPanel implements PropertyChangeListener 
 
         selectedBooking.setTable(clickedTable);
         targetButton.setBackground(Color.RED);
-        System.out.println(bookingsList.getSelectedValue());
 
         MouseListener ml = buttonMouseListenerMap.get(targetButton);
         MouseMotionListener mml = buttonMotionListenerMap.get(targetButton);
@@ -178,8 +177,6 @@ public class TableSelectorPage extends JPanel implements PropertyChangeListener 
         };
         targetButton.addMouseListener(tableButtonListener);
         buttonMouseListenerMap.put(targetButton, tableButtonListener);
-
-        System.out.println(selectedBooking.getTable());
     }
 
     private void makeComponentDraggable(Component comp){

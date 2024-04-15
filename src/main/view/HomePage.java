@@ -73,7 +73,11 @@ public class HomePage extends JPanel {
 
         DefaultListModel<Booking> model = new DefaultListModel<>();
         JList<Booking> bookingJList = new JList<>(model);
+<<<<<<< HEAD
         bookingJList.setFixedCellHeight(50);
+=======
+        bookingJList.setFixedCellHeight(40);
+>>>>>>> 7fdce8aacc63074fde61c0e9774231a60b51ad3a
         bookingJList.setFont(new Font("Open Sans", Font.PLAIN, 14));
 
         List<Booking> todaysBookings = controller.getTodaysBookings();

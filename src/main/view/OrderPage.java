@@ -138,7 +138,7 @@ public class OrderPage extends JPanel {
     }
 
     /**
-    * This method creates the 3 boxes, along with the labels and buttons. If you touch this, I think everything explodes
+    * This method creates the 3 boxes, along with the labels and buttons
     */
     private JPanel createCoursePanel(JList<Dish> list, JLabel statusLabel, JLabel totalPriceLabel, JButton button) {
         JPanel headerPanel = new JPanel(new GridLayout(3, 1));

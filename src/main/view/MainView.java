@@ -159,11 +159,11 @@ public class MainView extends JFrame {
         JLabel logoLabel = new JLabel(logo);
         headerPanel.add(logoLabel, BorderLayout.WEST);
 
-        JLabel nameLabel = new JLabel("Lancaster's ");
-        nameLabel.setFont(new Font("Open Sans", Font.BOLD, 20).deriveFont(20f));
-        nameLabel.setForeground(new Color(169, 168, 166));
-        nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-        headerPanel.add(nameLabel, BorderLayout.CENTER);
+//        JLabel nameLabel = new JLabel("Lancaster's ");
+//        nameLabel.setFont(new Font("Open Sans", Font.BOLD, 20).deriveFont(20f));
+//        nameLabel.setForeground(new Color(169, 168, 166));
+//        nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+//        headerPanel.add(nameLabel, BorderLayout.CENTER);
 
         dateTimeLabel = new JLabel();
         dateTimeLabel.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));

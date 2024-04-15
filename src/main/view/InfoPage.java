@@ -11,7 +11,6 @@ public class InfoPage extends JPanel{
     public InfoPage(MainView parentFrame){
         this.parentFrame = parentFrame;
         setLayout(new BorderLayout());
-        setBackground(new Color(240, 240, 240));
         createUIElements();
     }
 
@@ -31,6 +30,8 @@ public class InfoPage extends JPanel{
                         "</body></html>"
         );
         infoTextPane.setBorder(null);
+
+        infoTextPane.setBackground(new Color(214, 217, 223));
 
         JScrollPane scrollPane = new JScrollPane(infoTextPane);
         scrollPane.setBorder(null);

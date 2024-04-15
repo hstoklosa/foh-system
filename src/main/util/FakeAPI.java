@@ -12,6 +12,7 @@ public class FakeAPI {
 
     public static List<Dish> createMenu(){
         List<Dish> menu = new ArrayList<>();
+
         menu.add(new Dish(1, "Warm Onion Tart", 12.00, "Quickes Goats Cheese, Worcestershire and Shallots"));
         menu.add(new Dish(2, "Venison Pâté en Croûte", 13.00, "Hedgerow Jelly, Mustard Fruit and Pistachio"));
         menu.add(new Dish(3, "Lasagne of Rabbit Shoulder", 12.00, "Mushrooms, Riesling and Thyme"));
@@ -24,6 +25,7 @@ public class FakeAPI {
         menu.add(new Dish(10, "Plum Ripple Ice Cream", 7.00, "Caramelised Pastry, Almond Cream and Camomile"));
         menu.add(new Dish(11, "Custard Flan", 8.00, "Quince and Crème Fraîche"));
         menu.add(new Dish(12, "Selection of Cheese", 12.00, "Tunworth, Lincolnshire Poacher, Beauvale Blue Crackers and Homemade Chutney"));
+
         return menu;
     }
 
