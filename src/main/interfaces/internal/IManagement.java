@@ -56,11 +56,4 @@ public interface IManagement {
      */
     int getDayAverageCovers(WeekDay day);
 
-    /**
-     * Sends an email notification when the number of bookings exceeds a predefined limit.
-     *
-     * @return void
-     */
-
-
 }

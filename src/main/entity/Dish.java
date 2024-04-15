@@ -41,7 +41,12 @@ public class Dish {
         return id;
     }
 
-    public String toString(){
+    public String toString() {
         return name;
     }
+//    @Override
+//    public String toString() {
+//        return name + ", £" + price;
+//    }
+
 }

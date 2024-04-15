@@ -25,12 +25,12 @@ import java.util.List;
 public class TableSelectorPage extends JPanel implements PropertyChangeListener {
     private MainView parentFrame;
     private FOHController mainControl;
+    private OrderController orderControl;
 
     private JList<Booking> bookingsList;
     private DefaultListModel<Booking> bookingsModel;
 
     private JPanel floorPlanPanel;
-    private JButton deallocateButton;
     private Map<JButton, Table> buttonTableMap;
     private Map<JButton, MouseListener> buttonMouseListenerMap;
     private Map<JButton, MouseMotionListener> buttonMotionListenerMap;
@@ -50,12 +50,6 @@ public class TableSelectorPage extends JPanel implements PropertyChangeListener 
         floorPlanPanel.setPreferredSize(new Dimension(800, 600));
         floorPlanPanel.setBackground(Color.WHITE);
         initTable();
-
-        JPanel footerPanel = new JPanel(new FlowLayout());
-        deallocateButton = new JButton("Deallocate Table");
-        deallocateButton.addActionListener(e -> System.out.println("XD"));
-        footerPanel.add(deallocateButton);
-        add(footerPanel, BorderLayout.SOUTH);
 
         JButton backButton = new JButton("Home");
         backButton.setBackground(new Color(208, 207, 207));
@@ -151,7 +145,7 @@ public class TableSelectorPage extends JPanel implements PropertyChangeListener 
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {  // Check for double-click
-                                OrderPage op = new OrderPage(parentFrame, new OrderController(clickedTable));
+                                OrderPage op = new OrderPage(parentFrame, new OrderController(mainControl.getDb(), clickedTable));
                                 parentFrame.addCard(op, "OrdersPage");
                                 parentFrame.showCard("OrdersPage");
                             }

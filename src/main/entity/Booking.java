@@ -11,6 +11,7 @@ public class Booking {
     private String phoneNumber;
     private int tableSize;
     private LocalDateTime bookingTime;
+
     private Table table;
 
     public Booking(int id, String firstName, String lastName, String phoneNumber, int tableSize, LocalDateTime bookingTime) {
@@ -24,13 +25,14 @@ public class Booking {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        return String.format("Name: %s, Phone: %s, Tables for %d, Time: %s",
-                firstName + " " + lastName,
-                phoneNumber,
-                tableSize,
-                bookingTime.format(formatter));
+
+        return "<html>" + "<strong>ID: " + id + "</strong><br/>" +
+                "Name: " + firstName + " " + lastName + " | " +
+                "Phone: " + phoneNumber + " | " +
+                "Table for " + tableSize + " | " +
+                "Time: " + bookingTime.format(formatter) + "</html>";
     }
 
     public String getFirstName() {

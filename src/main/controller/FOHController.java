@@ -80,7 +80,7 @@ public class FOHController implements IFrontHouse {
         return tempTables;
     }
 
-    public void addBooking(String firstName, String lastName, String phoneNo, int seats) {
+    public void addBooking(String firstName, String lastName, String phoneNo, int seats, LocalDateTime date) {
         try {
             Connection conn = db.connect();
             PreparedStatement psta = conn.prepareStatement("INSERT INTO Booking (first_name, last_name, phone_no, date, seats) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -89,10 +89,10 @@ public class FOHController implements IFrontHouse {
             psta.setString(1, firstName);
             psta.setString(2, lastName);
             psta.setString(3, phoneNo);
-            psta.setObject(4, LocalDateTime.now());
+            psta.setObject(4, date);
             psta.setInt(5, seats);
-            int affectedRows = psta.executeUpdate();
 
+            int affectedRows = psta.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Creating user failed, no rows affected.");
             }
@@ -184,5 +184,9 @@ public class FOHController implements IFrontHouse {
 
     public void setTables(List<Table> tables) {
         this.tables = tables;
+    }
+
+    public DBConnection getDb() {
+        return db;
     }
 }

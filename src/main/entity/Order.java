@@ -18,47 +18,46 @@ import java.util.List;
  */
 public class Order {
     private final int id;
-    private int tableNumber;
     private List<Course> courses;
-    private int currentCourseIndex;
+    private CourseType currentCourseType;
     private OrderState state;
-
 
     /**
      * Constructs an Order by acting as a default parameter for courses.
-     *
-     * @param id            The unique identifier for the order.
-     * @param tableNumber   The table number associated with the order.
      */
-    public Order(int id, int tableNumber) {
-        this.id = id;
-        this.tableNumber = tableNumber;
+    public Order() {
+        this.id = 0;
         this.courses = new ArrayList<>();
+        this.currentCourseType = CourseType.COURSE_AWAY_1;
+        this.state = OrderState.IN_PROGRESS;
 
         this.courses.add(new Course(CourseType.COURSE_AWAY_1, new ArrayList<>()));
         this.courses.add(new Course(CourseType.COURSE_AWAY_2, new ArrayList<>()));
         this.courses.add(new Course(CourseType.COURSE_AWAY_3, new ArrayList<>()));
-        this.currentCourseIndex = 0;
-        this.state = OrderState.PREPARING;
     }
 
     /**
      * Constructs an Order with a specified ID, table number, and a list of courses.
      *
      * @param id The unique identifier for the order.
-     * @param tableNumber The table number associated with the order.
      * @param courses The initial list of courses for the order.
      */
-    public Order(int id, int tableNumber, ArrayList<Course> courses) {
+    public Order(int id, ArrayList<Course> courses) {
         this.id = id;
-        this.tableNumber = tableNumber;
         this.courses = courses;
-        this.currentCourseIndex = -1;
-        this.state = OrderState.PREPARING;
     }
 
     public void addCourse(Course course) {
         courses.add(course);
+    }
+
+    public Course getCourseByType(CourseType ct) {
+        for (Course c : courses) {
+            if (c.getType().equals(ct))
+                return c;
+        }
+
+        return null;
     }
 
     /**
@@ -67,38 +66,33 @@ public class Order {
      * @return The current course, or null if no more courses are left.
      */
     public Course getCurrentCourse() {
-        // ...
-        return null;
+        return getCourseByType(currentCourseType);
     }
 
     /**
      * Method that advances to the next course internally.
      */
     public void moveNextCourse() {
-        // ...
+        switch (currentCourseType) {
+            case COURSE_AWAY_1 -> setCurrentCourseType(CourseType.COURSE_AWAY_2);
+            case COURSE_AWAY_2 -> setCurrentCourseType(CourseType.COURSE_AWAY_3);
+            default -> { setState(OrderState.COMPLETED); }
+        }
     }
 
     /**
      * Updates the state of the order based on the presence/absence of remaining courses.
      */
     private void updateOrderState() {
-        if (courses.isEmpty()) {
-            this.state = OrderState.COMPLETED;
-        } else {
-            this.state = OrderState.IN_PROGRESS;
-        }
+
+    }
+
+    public boolean isComplete() {
+        return state.equals(OrderState.COMPLETED);
     }
 
     public int getId() {
         return id;
-    }
-
-    public int getTableNumber() {
-        return tableNumber;
-    }
-
-    public void setTableNumber(int tableNumber) {
-        this.tableNumber = tableNumber;
     }
 
     public List<Course> getCourses() {
@@ -109,6 +103,31 @@ public class Order {
         this.courses = courses;
     }
 
+    public void setCurrentCourseType(CourseType currentCourse) {
+        this.currentCourseType = currentCourse;
+    }
+
+    public CourseType getCurrentCourseType() {
+        return currentCourseType;
+    }
+
+    public String getCurrentCourseString() {
+        switch (currentCourseType) {
+            case COURSE_AWAY_1 -> {
+                return "Course 1";
+            }
+            case COURSE_AWAY_2 -> {
+                return "Course 2";
+            }
+            case COURSE_AWAY_3 -> {
+                return "Course 3";
+            }
+            default -> {}
+        }
+
+        return null;
+    }
+
     public OrderState getState() {
         return state;
     }
@@ -116,12 +135,5 @@ public class Order {
     public void setState(OrderState state) {
         this.state = state;
     }
-
-    public int getCurrentCourseIndex() {
-        return currentCourseIndex;
-    }
-
-    public void setCurrentCourseIndex(int currentCourseIndex) {
-        this.currentCourseIndex = currentCourseIndex;
-    }
 }
+

@@ -12,16 +12,9 @@ public class Course {
     private List<Dish> dishes;
 
     public Course(CourseType type, ArrayList<Dish> dishes) {
-        this.dishes = new ArrayList<>();
         this.type = type;
         this.state = CourseStatus.PENDING;
-
-        if (dishes != null) {
-            this.dishes = dishes;
-        } else {
-            this.dishes = new ArrayList<>();
-        }
-
+        this.dishes = new ArrayList<>();
     }
 
     public CourseType getType() {

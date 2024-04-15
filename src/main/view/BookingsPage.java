@@ -1,5 +1,7 @@
 package main.view;
 
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.TimePicker;
 import main.controller.FOHController;
 import main.entity.Booking;
 
@@ -7,7 +9,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -71,7 +75,6 @@ public class BookingsPage extends JPanel {
         JTextField lastNameField = new JTextField();
         JTextField phoneField = new JTextField();
         JTextField tableSizeField = new JTextField();
-        JTextField bookingTimeField = new JTextField();
 
         JLabel firstNameLabel = new JLabel("First Name: ");
         panel.add(firstNameLabel);
@@ -89,9 +92,15 @@ public class BookingsPage extends JPanel {
         panel.add(tableSizeLabel);
         panel.add(tableSizeField);
 
-        JLabel bookingTimeLabel = new JLabel("Booking Time: ");
+        JLabel bookingTimeLabel = new JLabel("Booking Date: ");
+        DatePicker datePicker1 = new DatePicker();
         panel.add(bookingTimeLabel);
-        panel.add(bookingTimeField);
+        panel.add(datePicker1);
+
+        JLabel bookingDateLabel = new JLabel("Booking Time: ");
+        TimePicker timePicker1 = new TimePicker();
+        panel.add(bookingDateLabel);
+        panel.add(timePicker1);
 
         int result = JOptionPane.showConfirmDialog(
             this, panel, "Add Booking",
@@ -100,11 +109,16 @@ public class BookingsPage extends JPanel {
 
         if (result == JOptionPane.OK_OPTION) {
             try {
+                LocalDate date = datePicker1.getDate();
+                LocalTime time = timePicker1.getTime();
+                LocalDateTime dateTime = LocalDateTime.of(date, time);
+
                 mainControl.addBooking(
                     nameField.getText(),
                     lastNameField.getText(),
                     phoneField.getText(),
-                    Integer.parseInt(tableSizeField.getText())
+                    Integer.parseInt(tableSizeField.getText()),
+                    dateTime
                 );
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Invalid input", "Error", JOptionPane.ERROR_MESSAGE);

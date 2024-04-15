@@ -222,4 +222,12 @@ public class MainView extends JFrame {
 
         return menuBar;
     }
+
+    public FOHController getController() {
+        return controller;
+    }
+
+    public void setController(FOHController controller) {
+        this.controller = controller;
+    }
 }
