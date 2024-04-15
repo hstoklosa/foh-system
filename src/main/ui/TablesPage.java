@@ -77,13 +77,13 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
     }
 
     public void initTable() {
-        int cols = 5;               // Total number of columns
+        int cols = 5;
         int tableWidth = 78;
         int tableHeight = 73;
-        int horizontalSpacing = 78; // Space between tables horizontally
-        int verticalSpacing = 73;   // Space between tables vertically
+        int horizontalSpacing = 78;
+        int verticalSpacing = 73;
         int offsetX = 0;
-        int offsetY = 0;           // Initial offset from top
+        int offsetY = 0;
 
         for (Table table : mainControl.getTables()) {
             JButton tableButton = new JButton("T" + table.getTableId());
@@ -123,7 +123,6 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
     }
 
     private void popUp(JButton targetButton) {
-        // Scroll pane for JList
         bookingsModel.clear();
         for (Booking bk : mainControl.getCurrentBookings()) {
             bookingsModel.addElement(bk);
@@ -132,12 +131,10 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
         JScrollPane scrollPane = new JScrollPane(bookingsList);
         scrollPane.setPreferredSize(new Dimension(500, 100));
 
-        // Create the popup
         JPopupMenu popup = new JPopupMenu();
         popup.add(scrollPane);
         popup.setFocusable(false);
 
-        // Mouse listener to handle double-clicks
         bookingsList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -156,7 +153,7 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
                     MouseListener tableButtonListener = new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                            if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {  // Check for double-click
+                            if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
                                 OrdersPage op = new OrdersPage(parentFrame, new TableController(clickedTable));
                                 parentFrame.addCard(op, "OrdersPage");
                                 parentFrame.showCard("OrdersPage");
@@ -167,16 +164,15 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
                     buttonMouseListenerMap.put(targetButton, tableButtonListener);
 
                     System.out.println(selectedBooking.getTable());
-                    popup.setVisible(false);  // Close the popup
+                    popup.setVisible(false);
                 }
             }
         });
 
-        // Show the popup relative to the parent component
         int x = (parentFrame.getWidth() - popup.getPreferredSize().width) / 2;
         int y = (parentFrame.getHeight() - popup.getPreferredSize().height) / 2;
 
-        // Show the popup at the calculated position relative to the frame
+
         popup.show(parentFrame, x, y);
     }
 

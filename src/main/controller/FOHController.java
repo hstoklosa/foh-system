@@ -83,11 +83,10 @@ public class FOHController implements IFrontHouse {
 
     public void addBooking(String firstName, String lastName, String phoneNo, int seats) {
         try {
-            // Create connection and initialise PreparedStatement
             Connection conn = db.connect();
             PreparedStatement psta = conn.prepareStatement("INSERT INTO Booking (first_name, last_name, phone_no, date, seats) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
-            // insert params into PreparedStatement
+
             psta.setString(1, firstName);
             psta.setString(2, lastName);
             psta.setString(3, phoneNo);
@@ -116,7 +115,6 @@ public class FOHController implements IFrontHouse {
     }
 
     public void updateBooking(Booking bk) {
-        // Create connection and initialise PreparedStatement
         try {
             Connection conn = db.connect();
             PreparedStatement psta = conn.prepareStatement("UPDATE Booking SET first_name = ?, last_name = ?, phone_no = ?, seats = ?, date = ? WHERE booking_id = ?");

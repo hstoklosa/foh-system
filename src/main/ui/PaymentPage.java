@@ -7,17 +7,14 @@ public class PaymentPage extends JPanel {
     public PaymentPage(GUI parentFrame) {
         setLayout(new BorderLayout());
 
-        // Back button
         JButton backButton = new JButton("Home");
         backButton.setBackground(new Color(208, 207, 207));
         backButton.addActionListener(e -> parentFrame.showCard("HomePage"));
         backButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
 
-        // Payment form panel
         JPanel paymentForm = new JPanel(new GridLayout(0, 2, 10, 10));
         paymentForm.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Components for payment form
         JLabel labelAmount = new JLabel("Total Amount:");
         JTextField fieldAmount = new JTextField("0.00");
 
@@ -33,7 +30,7 @@ public class PaymentPage extends JPanel {
         printReceiptButton.setBackground(new Color(208, 207, 207));
         printReceiptButton.addActionListener(e -> printReceipt());
 
-        // Adding components to the form
+
         paymentForm.add(labelAmount);
         paymentForm.add(fieldAmount);
         paymentForm.add(labelPaymentMethod);

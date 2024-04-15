@@ -198,7 +198,6 @@ public class GUI extends JFrame {
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
 
-        // File Section
         JMenuItem fileMenu = new JMenu("File");
         JMenuItem homeMenuItem = new JMenuItem("Home");
         homeMenuItem.addActionListener(e -> System.exit(0));
@@ -209,13 +208,11 @@ public class GUI extends JFrame {
         fileMenu.add(homeMenuItem);
         fileMenu.add(exitItem);
 
-        // Menu section
         JMenuItem menuMenu = new JMenu("Menu");
         JMenuItem printMenuItem = new JMenuItem("Print");
         printMenuItem.addActionListener(e -> System.exit(0));
         menuMenu.add(printMenuItem);
 
-        // Compile menubar
         menuBar.add(fileMenu);
         menuBar.add(menuMenu);
 
