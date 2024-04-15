@@ -5,10 +5,16 @@ import main.entity.Booking;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import main.util.FakeAPI;
+import main.entity.Dish;
+
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 public class HomePage extends JPanel {
@@ -18,7 +24,7 @@ public class HomePage extends JPanel {
     public HomePage(FOHController controller) {
         this.controller = controller;
         setLayout(new BorderLayout());
-        add(createOverviewPanel(), BorderLayout.CENTER);
+        add(createMenuPanel(), BorderLayout.CENTER);
         add(createBookingsPanel(), BorderLayout.EAST);
 
         addComponentListener(new ComponentAdapter() {
@@ -29,14 +35,32 @@ public class HomePage extends JPanel {
         });
     }
 
-    private JPanel createOverviewPanel() {
-        JPanel panel = new JPanel(new GridLayout(2, 2, 10, 10));  // Grid layout for simple organization
-        // Add components to the overview panel
-        panel.add(new JLabel("thing 1"));
-        panel.add(new JLabel("thing 2"));
+    private JPanel createMenuPanel() {
+        JPanel menuPanel = new JPanel(new BorderLayout());
+        menuPanel.setBorder(BorderFactory.createTitledBorder("Today's Menu"));
 
-        // You can replace these JLabels with more complex components as needed
-        return panel;
+        DefaultListModel<Dish> menuModel = new DefaultListModel<>();
+        JList<Dish> menuList = new JList<>(menuModel);
+        menuList.setFixedCellHeight(30);
+        menuList.setFont(new Font("Open Sans", Font.PLAIN, 14));
+
+        List<Dish> menu = FakeAPI.createMenu();
+        menu.forEach(menuModel::addElement);
+
+        menuList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(e.getClickCount() == 2){
+                    Dish selectedDish = menuList.getSelectedValue();
+                    if(selectedDish != null){
+                        showDishDetails(selectedDish);
+                    }
+                }
+            }
+        });
+
+        menuPanel.add(new JScrollPane(menuList), BorderLayout.CENTER);
+        return menuPanel;
     }
 
     private JPanel createBookingsPanel(){
@@ -57,9 +81,14 @@ public class HomePage extends JPanel {
 
     private void updateTodaysBookings(){
         removeAll();
-        add(createOverviewPanel(), BorderLayout.CENTER);
+        add(createMenuPanel(), BorderLayout.CENTER);
         add(createBookingsPanel(), BorderLayout.EAST);
         revalidate();;
         repaint();
+    }
+
+    private void showDishDetails(Dish dish){
+        String message = String.format("Price: $%.2f\nDescription: %s", dish.getPrice(), dish.getDescription());
+        JOptionPane.showMessageDialog(this, message, "Details of " + dish.getName(), JOptionPane.INFORMATION_MESSAGE);
     }
 }

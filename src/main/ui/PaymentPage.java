@@ -46,12 +46,10 @@ public class PaymentPage extends JPanel {
     }
 
     private void processPayment() {
-        // Logic to process payment
         JOptionPane.showMessageDialog(this, "Payment Processed Successfully!", "Payment", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void printReceipt() {
-        // Logic to print receipt
         JOptionPane.showMessageDialog(this, "Receipt Printed Successfully!", "Receipt", JOptionPane.INFORMATION_MESSAGE);
     }
 }
