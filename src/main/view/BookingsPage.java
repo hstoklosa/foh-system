@@ -160,8 +160,15 @@ public class BookingsPage extends JPanel {
             panel.add(new JLabel("Table Size: "));
             panel.add(tableSizeField);
 
-            panel.add(new JLabel("Booking Time: "));
-            panel.add(bookingTimeField);
+            JLabel bookingTimeLabel = new JLabel("Booking Date: ");
+            DatePicker datePicker1 = new DatePicker();
+            panel.add(bookingTimeLabel);
+            panel.add(datePicker1);
+
+            JLabel bookingDateLabel = new JLabel("Booking Time: ");
+            TimePicker timePicker1 = new TimePicker();
+            panel.add(bookingDateLabel);
+            panel.add(timePicker1);
 
             int result = JOptionPane.showConfirmDialog(
                 this, panel, "Manage Booking",
@@ -170,11 +177,16 @@ public class BookingsPage extends JPanel {
 
             if (result == JOptionPane.OK_OPTION) {
                 try {
+                    LocalDate date = datePicker1.getDate();
+                    LocalTime time = timePicker1.getTime();
+                    LocalDateTime dateTime = LocalDateTime.of(date, time);
+
                     selectedBooking.setFirstName(firstNameField.getText());
                     selectedBooking.setLastName(lastNameField.getText());
                     selectedBooking.setPhoneNumber(phoneField.getText());
                     selectedBooking.setTableSize(Integer.parseInt(tableSizeField.getText()));
                     selectedBooking.setBookingTime(LocalDateTime.parse(bookingTimeField.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+                    selectedBooking.setBookingTime(dateTime);
                     mainControl.updateBooking(selectedBooking);
                     bookingsList.repaint(); // Refresh the JList to show updated information
                 } catch (Exception e) {

@@ -1,14 +1,10 @@
 package main.controller;
 
 import main.database.DBConnection;
-import main.entity.Booking;
 import main.entity.Course;
 import main.entity.Order;
 import main.entity.Table;
 import main.enums.CourseType;
-
-import java.sql.*;
-import java.time.LocalDateTime;
 
 public class OrderController {
     private DBConnection db;
@@ -65,5 +61,13 @@ public class OrderController {
 
     public Table getTable() {
         return table;
+    }
+
+    public DBConnection getDb() {
+        return db;
+    }
+
+    public void setDb(DBConnection db) {
+        this.db = db;
     }
 }

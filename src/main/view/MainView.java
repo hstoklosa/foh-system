@@ -80,7 +80,6 @@ public class MainView extends JFrame {
         HomePage homePage = new HomePage(controller);
 
         BookingsPage bookingsPage = new BookingsPage(this, controller);
-        PaymentPage paymentPage = new PaymentPage(this);
         InfoPage infoPage = new InfoPage(this);
 
         homePage.setBackground(lancasterColor);
@@ -92,7 +91,6 @@ public class MainView extends JFrame {
         cardsPanel.add(homePage, "HomePage");
         cardsPanel.add(tablesPage, "TablesPage");
         cardsPanel.add(bookingsPage, "BookingsPage");
-        cardsPanel.add(paymentPage, "PaymentPage");
         cardsPanel.add(infoPage, "InfoPage");
 
         this.add(cardsPanel, BorderLayout.CENTER);
@@ -119,26 +117,18 @@ public class MainView extends JFrame {
 
         JButton tablesButton = new JButton("Tables");
         JButton bookingsButton = new JButton("Bookings");
-        JButton ordersButton = new JButton("Orders");
-        JButton paymentButton = new JButton("Payment");
         JButton infoButton = new JButton("Info");
 
         tablesButton.addActionListener(e -> showCard("TablesPage"));
         bookingsButton.addActionListener(e -> showCard("BookingsPage"));
-        ordersButton.addActionListener(e -> showCard("OrdersPage"));
-        paymentButton.addActionListener(e -> showCard("PaymentPage"));
         infoButton.addActionListener(e -> showCard("InfoPage"));
 
         tablesButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
         bookingsButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
-        ordersButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
-        paymentButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
         infoButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
 
         tablesButton.setBackground(buttonColor);
         bookingsButton.setBackground(buttonColor);
-        ordersButton.setBackground(buttonColor);
-        paymentButton.setBackground(buttonColor);
         infoButton.setBackground(buttonColor);
 
         JButton homeButton = new JButton("Home");
@@ -147,8 +137,6 @@ public class MainView extends JFrame {
 
         buttonPanel.add(tablesButton);
         buttonPanel.add(bookingsButton);
-        buttonPanel.add(ordersButton);
-        buttonPanel.add(paymentButton);
         buttonPanel.add(infoButton);
 
         buttonPanel.setBackground(lancasterColor);

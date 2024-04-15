@@ -9,6 +9,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 import java.util.stream.Collectors;
@@ -52,19 +53,10 @@ public class FOHController implements IFrontHouse {
                 tempBookings.add(new Booking(id, firstName, lastName, phoneNo, seats, date));
             }
 
-//            ResultSet rs2 = db.read("SELECT * FROM Staff", conn);
-//            while (rs2.next()) {
-//                int id = rs2.getInt("staff_id");
-//                String firstName = rs2.getString("first_name");
-//                String lastName = rs2.getString("last_name");
-//
-//                System.out.println(id + " " + firstName + " " + lastName);
-//            }
-
             db.commit(conn);
             db.closeConnection(conn);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.err.println("An error occurred while fetching bookings: " + e.getMessage());
         }
 
         return tempBookings;
@@ -84,7 +76,6 @@ public class FOHController implements IFrontHouse {
         try {
             Connection conn = db.connect();
             PreparedStatement psta = conn.prepareStatement("INSERT INTO Booking (first_name, last_name, phone_no, date, seats) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-
 
             psta.setString(1, firstName);
             psta.setString(2, lastName);
@@ -159,6 +150,29 @@ public class FOHController implements IFrontHouse {
         return bookings.stream()
                 .filter(booking -> booking.getBookingTime().toLocalDate().isEqual(LocalDate.now()))
                 .collect(Collectors.toList());
+    }
+
+    public List<Staff> fetchStaff() {
+        List<Staff> staff = new LinkedList<>();
+
+        try {
+            Connection conn = db.connect();
+            ResultSet rs2 = db.read("SELECT * FROM Staff", conn);
+
+            while (rs2.next()) {
+                int id = rs2.getInt("staff_id");
+                String firstName = rs2.getString("first_name");
+                String lastName = rs2.getString("last_name");
+
+                staff.add(new Staff(id, firstName, lastName));
+            }
+
+            conn.close();
+        } catch (SQLException e) {
+            System.err.println("An issue occurred while fetching staff: " + e.getMessage());
+        }
+
+        return staff;
     }
 
     @Override

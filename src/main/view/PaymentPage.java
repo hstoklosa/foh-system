@@ -1,5 +1,7 @@
 package main.view;
 
+import main.controller.PaymentController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,7 +12,11 @@ public class PaymentPage extends JPanel {
     private JComboBox<Integer> split;
     private JTextField fieldAmount;
 
-    public PaymentPage(MainView parentFrame) {
+    private PaymentController controller;
+
+    public PaymentPage(MainView parentFrame, PaymentController controller) {
+        this.controller = controller;
+
         setLayout(new BorderLayout());
 
         JButton backButton = new JButton("Home");

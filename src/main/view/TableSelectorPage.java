@@ -3,6 +3,7 @@ package main.view;
 import main.controller.FOHController;
 import main.controller.OrderController;
 import main.entity.Booking;
+import main.entity.Staff;
 import main.entity.Table;
 import main.enums.TableStatus;
 
@@ -14,7 +15,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -68,13 +71,13 @@ public class TableSelectorPage extends JPanel implements PropertyChangeListener 
     }
 
     public void initTable() {
-        int cols = 5;
+        int cols = 6;               // Total number of columns
         int tableWidth = 78;
         int tableHeight = 73;
-        int horizontalSpacing = 78;
-        int verticalSpacing = 73;
-        int offsetX = 0;
-        int offsetY = 0;
+        int horizontalSpacing = 78; // Space between tables horizontally
+        int verticalSpacing = 73;   // Space between tables vertically
+        int offsetX = 35;            // Initial offset from left
+        int offsetY = 40;           // Initial offset from top
 
         for (Table table : mainControl.getTables()) {
             JButton tableButton = new JButton(String.valueOf(table.getTableId()));
@@ -119,51 +122,64 @@ public class TableSelectorPage extends JPanel implements PropertyChangeListener 
             bookingsModel.addElement(bk);
         }
 
+        List<Staff> staff = mainControl.fetchStaff();
+        DefaultListModel<Staff> staffModel = new DefaultListModel<>();
+        JList<Staff> staffList = new JList<>(staffModel);
+
+        for (Staff s : staff) {
+            staffModel.addElement(s);
+        }
+
         JScrollPane scrollPane = new JScrollPane(bookingsList);
-        scrollPane.setPreferredSize(new Dimension(500, 100));
+        scrollPane.setPreferredSize(new Dimension(200, 100));
 
-        JPopupMenu popup = new JPopupMenu();
-        popup.add(scrollPane);
-        popup.setFocusable(false);
+        JScrollPane staffScrollPane = new JScrollPane(staffList);
+        staffScrollPane.setPreferredSize(new Dimension(200, 100));
 
-        bookingsList.addMouseListener(new MouseAdapter() {
+        JPanel jp = new JPanel();
+        jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS)); // Set the layout to vertical
+
+        jp.add(new JLabel("Booking: "));
+        jp.add(scrollPane);
+
+        jp.add(new JLabel("Waiter: "));
+        jp.add(staffScrollPane);
+
+        int result = JOptionPane.showConfirmDialog(
+                this, jp, "Add Booking",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE
+        );
+
+        if (result != JOptionPane.OK_OPTION) {
+            return;
+        }
+
+        Table clickedTable = buttonTableMap.get(targetButton);
+        Booking selectedBooking = bookingsList.getSelectedValue();
+
+        selectedBooking.setTable(clickedTable);
+        targetButton.setBackground(Color.RED);
+        System.out.println(bookingsList.getSelectedValue());
+
+        MouseListener ml = buttonMouseListenerMap.get(targetButton);
+        MouseMotionListener mml = buttonMotionListenerMap.get(targetButton);
+        targetButton.removeMouseListener(ml);
+        targetButton.removeMouseMotionListener(mml);
+
+        MouseListener tableButtonListener = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
-                    Table clickedTable = buttonTableMap.get(targetButton);
-                    Booking selectedBooking = bookingsList.getSelectedValue();
-
-                    selectedBooking.setTable(clickedTable);
-                    targetButton.setBackground(Color.RED);
-
-                    MouseListener ml = buttonMouseListenerMap.get(targetButton);
-                    MouseMotionListener mml = buttonMotionListenerMap.get(targetButton);
-                    targetButton.removeMouseListener(ml);
-                    targetButton.removeMouseMotionListener(mml);
-
-                    MouseListener tableButtonListener = new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {  // Check for double-click
-                                OrderPage op = new OrderPage(parentFrame, new OrderController(mainControl.getDb(), clickedTable));
-                                parentFrame.addCard(op, "OrdersPage");
-                                parentFrame.showCard("OrdersPage");
-                            }
-                        }
-                    };
-                    targetButton.addMouseListener(tableButtonListener);
-                    buttonMouseListenerMap.put(targetButton, tableButtonListener);
-
-                    System.out.println(selectedBooking.getTable());
-                    popup.setVisible(false);
+                if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {  // Check for double-click
+                    OrderPage op = new OrderPage(parentFrame, new OrderController(mainControl.getDb(), clickedTable));
+                    parentFrame.addCard(op, "OrdersPage");
+                    parentFrame.showCard("OrdersPage");
                 }
             }
-        });
+        };
+        targetButton.addMouseListener(tableButtonListener);
+        buttonMouseListenerMap.put(targetButton, tableButtonListener);
 
-        int x = (parentFrame.getWidth() - popup.getPreferredSize().width) / 2;
-        int y = (parentFrame.getHeight() - popup.getPreferredSize().height) / 2;
-
-        popup.show(parentFrame, x, y);
+        System.out.println(selectedBooking.getTable());
     }
 
     private void makeComponentDraggable(Component comp){

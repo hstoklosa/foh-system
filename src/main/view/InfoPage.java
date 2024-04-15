@@ -16,21 +16,26 @@ public class InfoPage extends JPanel{
     }
 
     private void createUIElements(){
+        JPanel jp = new JPanel();
+
         JTextPane infoTextPane = new JTextPane();
         infoTextPane.setEditable(false);
         infoTextPane.setFont(new Font("Open Sans", Font.PLAIN, 14));
         infoTextPane.setContentType("text/html");
         infoTextPane.setText(
-                "<html><body style='text-align:center; font-family:Open Sans; font-size:14px; color: #333;'>" +
+                "<html><body style='text-align:center; font-family:Open Sans; font-size:14px; color: #333; background-color: rgb(214, 217, 223);'>" +
                         "<strong>Lancaster's Restaurant Front of House System</strong><br>" +
                         "Version: 1.0<br>" +
                         "Developed by: <strong>Greatest Programming Team (GPT)</strong><br>" +
                         "Created in Collaboration with <strong>Lancaster's Restaurant</strong><br>" +
                         "</body></html>"
         );
+        infoTextPane.setBorder(null);
 
         JScrollPane scrollPane = new JScrollPane(infoTextPane);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10,10));
+        scrollPane.setBorder(null);
+        scrollPane.setBackground(null);
+        jp.add(scrollPane);
 
         ImageIcon lanLogo = new ImageIcon("src/resources/images/logo.jpeg");
         Image image = lanLogo.getImage();
@@ -52,6 +57,8 @@ public class InfoPage extends JPanel{
         imagePanel.add(xLabel);
         imagePanel.add(teamLabel);
 
+        jp.add(imagePanel);
+
 
         JButton backButton = new JButton("Home");
         backButton.setBackground(new Color(208, 207, 207));
@@ -59,8 +66,10 @@ public class InfoPage extends JPanel{
         backButton.addActionListener(e -> parentFrame.showCard("HomePage"));
         backButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
-        add(backButton, BorderLayout.NORTH);
-        add(scrollPane, BorderLayout.CENTER);
-        add(imagePanel, BorderLayout.SOUTH);
+//        add(backButton, BorderLayout.NORTH);
+//        add(scrollPane, BorderLayout.CENTER);
+//        add(imagePanel, BorderLayout.SOUTH);
+
+        add(jp, BorderLayout.CENTER);
     }
 }

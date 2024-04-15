@@ -1,6 +1,7 @@
 package main.view;
 
 import main.controller.OrderController;
+import main.controller.PaymentController;
 import main.entity.Course;
 import main.entity.Dish;
 import main.entity.Order;
@@ -48,7 +49,14 @@ public class OrderPage extends JPanel {
 
         JPanel headerInnerPanel2 = new JPanel();
 
-        headerInnerPanel2.add(new JButton("Go to Payment"));
+        JButton paymentBtn = new JButton("Go to Payment");
+        paymentBtn.addActionListener(e -> {
+            PaymentPage pp = new PaymentPage(parentFrame, new PaymentController(controller.getDb()));
+            parentFrame.addCard(pp, "PaymentPage");
+            parentFrame.showCard("PaymentPage");
+        });
+
+        headerInnerPanel2.add(paymentBtn);
         headerInnerPanel2.add(new JButton("Deallocate"));
         headerPanel.add(headerInnerPanel);
         headerPanel.add(headerInnerPanel2);
@@ -87,9 +95,9 @@ public class OrderPage extends JPanel {
             course3Model.addElement(dish);
         }
 
-        course1StatusLabel = new JLabel("Pending");
-        course2StatusLabel = new JLabel("Pending");
-        course3StatusLabel = new JLabel("Pending");
+        course1StatusLabel = new JLabel("Course 1: Pending");
+        course2StatusLabel = new JLabel("Course 2: Pending");
+        course3StatusLabel = new JLabel("Course 3: Pending");
 
         totalPrice1Label = new JLabel("Total: £0.0");
         totalPrice2Label = new JLabel("Total: £0.0");

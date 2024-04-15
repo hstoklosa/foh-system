@@ -1,19 +1,30 @@
 package main.entity;
 
 public class Staff {
-    private final String name;
-    private final String surname;
+    private final int id;
+    private final String firstName;
+    private final String lastName;
 
-    public Staff(String name, String surname) {
-        this.name = name;
-        this.surname = surname;
+    public Staff(int id, String firstName, String lastName) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
     }
 }
