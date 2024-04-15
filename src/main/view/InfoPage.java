@@ -11,7 +11,6 @@ public class InfoPage extends JPanel{
     public InfoPage(MainView parentFrame){
         this.parentFrame = parentFrame;
         setLayout(new BorderLayout());
-        setBackground(new Color(240, 240, 240));
         createUIElements();
     }
 
@@ -28,6 +27,8 @@ public class InfoPage extends JPanel{
                         "Created in Collaboration with <strong>Lancaster's Restaurant</strong><br>" +
                         "</body></html>"
         );
+
+        infoTextPane.setBackground(new Color(214, 217, 223));
 
         JScrollPane scrollPane = new JScrollPane(infoTextPane);
         scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10,10));
