@@ -48,6 +48,8 @@ public class HomePage extends JPanel {
         List<Dish> menu = FakeAPI.createMenu();
         menu.forEach(menuModel::addElement);
 
+        JScrollPane menuScrollPane = new JScrollPane(menuList);
+
         menuList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -60,6 +62,7 @@ public class HomePage extends JPanel {
             }
         });
 
+        menuScrollPane.setPreferredSize(new Dimension(300, 0));
         menuPanel.add(new JScrollPane(menuList), BorderLayout.CENTER);
         return menuPanel;
     }
@@ -76,7 +79,9 @@ public class HomePage extends JPanel {
         List<Booking> todaysBookings = controller.getTodaysBookings();
         todaysBookings.forEach(model::addElement);
 
-        bookingsPanel.add(new JScrollPane(bookingJList), BorderLayout.CENTER);
+        JScrollPane bookingsScrollPane = new JScrollPane(bookingJList);
+        bookingsScrollPane.setPreferredSize(new Dimension(500, 0));
+        bookingsPanel.add(bookingsScrollPane, BorderLayout.CENTER);
         return bookingsPanel;
     }
 
