@@ -172,7 +172,6 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
         int x = (parentFrame.getWidth() - popup.getPreferredSize().width) / 2;
         int y = (parentFrame.getHeight() - popup.getPreferredSize().height) / 2;
 
-
         popup.show(parentFrame, x, y);
     }
 

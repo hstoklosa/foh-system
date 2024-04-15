@@ -2,8 +2,12 @@ package main.ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class PaymentPage extends JPanel {
+    private JComboBox<String> comboDiscount;
+    private JTextField fieldAmount;
+
     public PaymentPage(GUI parentFrame) {
         setLayout(new BorderLayout());
 
@@ -16,11 +20,16 @@ public class PaymentPage extends JPanel {
         paymentForm.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JLabel labelAmount = new JLabel("Total Amount:");
-        JTextField fieldAmount = new JTextField("0.00");
+        fieldAmount = new JTextField("0.00");
 
         JLabel labelPaymentMethod = new JLabel("Payment Method:");
         JComboBox<String> comboPaymentMethod = new JComboBox<>(new String[]{"Cash", "Credit Card"});
         comboPaymentMethod.setBackground(new Color(208, 207, 207));
+
+        JLabel labelDiscount = new JLabel("Discount:");
+        comboDiscount = new JComboBox<>(new String[]{"0%", "10%", "20%", "30%"});
+        comboDiscount.setBackground(new Color(208, 207, 207));
+        comboDiscount.addActionListener(this::applyDiscount);
 
         JButton payButton = new JButton("Pay");
         payButton.setBackground(new Color(208, 207, 207));
@@ -35,11 +44,22 @@ public class PaymentPage extends JPanel {
         paymentForm.add(fieldAmount);
         paymentForm.add(labelPaymentMethod);
         paymentForm.add(comboPaymentMethod);
+        paymentForm.add(labelDiscount);
+        paymentForm.add(comboDiscount);
         paymentForm.add(payButton);
         paymentForm.add(printReceiptButton);
 
         add(backButton, BorderLayout.NORTH);
         add(paymentForm, BorderLayout.CENTER);
+    }
+
+    private void applyDiscount(ActionEvent e){
+        String selectedDiscount = (String) comboDiscount.getSelectedItem();
+        double discountRate = Integer.parseInt(selectedDiscount.trim().replace("%", "")) / 100.0;
+        double originalAmount = Double.parseDouble(fieldAmount.getText().trim());
+        double discountedAmount = originalAmount * (1 - discountRate);
+        fieldAmount.setText(String.format("%.2f", discountedAmount));
+        System.out.println("Discount applied: " + discountRate + ", New Amount: " + discountedAmount);
     }
 
     private void processPayment() {

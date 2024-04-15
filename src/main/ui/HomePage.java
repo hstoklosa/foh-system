@@ -15,6 +15,7 @@ import main.entity.Dish;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class HomePage extends JPanel {
@@ -37,7 +38,7 @@ public class HomePage extends JPanel {
 
     private JPanel createMenuPanel() {
         JPanel menuPanel = new JPanel(new BorderLayout());
-        menuPanel.setBorder(BorderFactory.createTitledBorder("Today's Menu"));
+        menuPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), "Today's Menu"));
 
         DefaultListModel<Dish> menuModel = new DefaultListModel<>();
         JList<Dish> menuList = new JList<>(menuModel);
@@ -65,7 +66,7 @@ public class HomePage extends JPanel {
 
     private JPanel createBookingsPanel(){
         JPanel bookingsPanel = new JPanel(new BorderLayout());
-        bookingsPanel.setBorder(BorderFactory.createTitledBorder("Today's Bookings"));
+        bookingsPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), "Today's Bookings"));
 
         DefaultListModel<Booking> model = new DefaultListModel<>();
         JList<Booking> bookingJList = new JList<>(model);
