@@ -7,10 +7,12 @@ import main.interfaces.internal.IFrontHouse;
 import main.ui.GUI;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 public class FOHController implements IFrontHouse {
     private final int DEFAULT_TABLES_AMOUNT = 15;
@@ -154,6 +156,12 @@ public class FOHController implements IFrontHouse {
         } catch (SQLException e) {
             System.out.println("An error occurred when removing a booking: " + e.getMessage());
         }
+    }
+
+    public List<Booking> getTodaysBookings() {
+        return bookings.stream()
+                .filter(booking -> booking.getBookingTime().toLocalDate().isEqual(LocalDate.now()))
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -77,7 +77,7 @@ public class GUI extends JFrame {
         setLocationByPlatform(true);
         setResizable(false); // don't let the frame be resized
 
-        HomePage homePage = new HomePage();
+        HomePage homePage = new HomePage(controller);
         TablesPage tablesPage = new TablesPage(this, controller);
         BookingsPage bookingsPage = new BookingsPage(this, controller);
 //        OrdersPage ordersPage = new OrdersPage(this);

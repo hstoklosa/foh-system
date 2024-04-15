@@ -82,7 +82,7 @@ public class TablesPage extends JPanel implements PropertyChangeListener {
         int tableHeight = 73;
         int horizontalSpacing = 78; // Space between tables horizontally
         int verticalSpacing = 73;   // Space between tables vertically
-        int offsetX = 0;            // Initial offset from left
+        int offsetX = 0;
         int offsetY = 0;           // Initial offset from top
 
         for (Table table : mainControl.getTables()) {
