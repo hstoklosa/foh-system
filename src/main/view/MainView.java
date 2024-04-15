@@ -76,10 +76,12 @@ public class MainView extends JFrame {
         setLocationByPlatform(true);
         setResizable(false); // don't let the frame be resized
 
-        HomePage homePage = new HomePage();
         TableSelectorPage tablesPage = new TableSelectorPage(this, controller);
+        HomePage homePage = new HomePage(controller);
+
         BookingsPage bookingsPage = new BookingsPage(this, controller);
         PaymentPage paymentPage = new PaymentPage(this);
+        InfoPage infoPage = new InfoPage(this);
 
         homePage.setBackground(lancasterColor);
 //        tablesPage.setBackground(lancasterColor);
@@ -91,6 +93,7 @@ public class MainView extends JFrame {
         cardsPanel.add(tablesPage, "TablesPage");
         cardsPanel.add(bookingsPage, "BookingsPage");
         cardsPanel.add(paymentPage, "PaymentPage");
+        cardsPanel.add(infoPage, "InfoPage");
 
         this.add(cardsPanel, BorderLayout.CENTER);
         this.add(createHeaderPanel(), BorderLayout.NORTH);
@@ -118,21 +121,25 @@ public class MainView extends JFrame {
         JButton bookingsButton = new JButton("Bookings");
         JButton ordersButton = new JButton("Orders");
         JButton paymentButton = new JButton("Payment");
+        JButton infoButton = new JButton("Info");
 
         tablesButton.addActionListener(e -> showCard("TablesPage"));
         bookingsButton.addActionListener(e -> showCard("BookingsPage"));
         ordersButton.addActionListener(e -> showCard("OrdersPage"));
         paymentButton.addActionListener(e -> showCard("PaymentPage"));
+        infoButton.addActionListener(e -> showCard("InfoPage"));
 
         tablesButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
         bookingsButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
         ordersButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
         paymentButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
+        infoButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
 
         tablesButton.setBackground(buttonColor);
         bookingsButton.setBackground(buttonColor);
         ordersButton.setBackground(buttonColor);
         paymentButton.setBackground(buttonColor);
+        infoButton.setBackground(buttonColor);
 
         JButton homeButton = new JButton("Home");
         homeButton.setBackground(new Color(77,170,87));
@@ -142,6 +149,7 @@ public class MainView extends JFrame {
         buttonPanel.add(bookingsButton);
         buttonPanel.add(ordersButton);
         buttonPanel.add(paymentButton);
+        buttonPanel.add(infoButton);
 
         buttonPanel.setBackground(lancasterColor);
 
@@ -194,7 +202,6 @@ public class MainView extends JFrame {
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
 
-        // File Section
         JMenuItem fileMenu = new JMenu("File");
         JMenuItem homeMenuItem = new JMenuItem("Home");
         homeMenuItem.addActionListener(e -> System.exit(0));
@@ -205,13 +212,11 @@ public class MainView extends JFrame {
         fileMenu.add(homeMenuItem);
         fileMenu.add(exitItem);
 
-        // Menu section
         JMenuItem menuMenu = new JMenu("Menu");
         JMenuItem printMenuItem = new JMenuItem("Print");
         printMenuItem.addActionListener(e -> System.exit(0));
         menuMenu.add(printMenuItem);
 
-        // Compile menubar
         menuBar.add(fileMenu);
         menuBar.add(menuMenu);
 

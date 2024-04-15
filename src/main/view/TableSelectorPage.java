@@ -9,14 +9,11 @@ import main.enums.TableStatus;
 import javax.swing.*;
 
 import java.awt.*;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +33,7 @@ public class TableSelectorPage extends JPanel implements PropertyChangeListener 
     private JButton deallocateButton;
     private Map<JButton, Table> buttonTableMap;
     private Map<JButton, MouseListener> buttonMouseListenerMap;
+    private Map<JButton, MouseMotionListener> buttonMotionListenerMap;
 
     public TableSelectorPage(MainView parentFrame, FOHController mainControl) {
         this.parentFrame = parentFrame;
@@ -44,6 +42,7 @@ public class TableSelectorPage extends JPanel implements PropertyChangeListener 
         this.bookingsList = new JList<>(bookingsModel);
         this.buttonTableMap = new HashMap<>();
         this.buttonMouseListenerMap = new HashMap<>();
+        this.buttonMotionListenerMap = new HashMap<>();
 
         setLayout(new BorderLayout());
 
@@ -75,13 +74,13 @@ public class TableSelectorPage extends JPanel implements PropertyChangeListener 
     }
 
     public void initTable() {
-        int cols = 5;               // Total number of columns
+        int cols = 5;
         int tableWidth = 78;
         int tableHeight = 73;
-        int horizontalSpacing = 78; // Space between tables horizontally
-        int verticalSpacing = 73;   // Space between tables vertically
-        int offsetX = 0;            // Initial offset from left
-        int offsetY = 0;           // Initial offset from top
+        int horizontalSpacing = 78;
+        int verticalSpacing = 73;
+        int offsetX = 0;
+        int offsetY = 0;
 
         for (Table table : mainControl.getTables()) {
             JButton tableButton = new JButton(String.valueOf(table.getTableId()));
@@ -121,7 +120,6 @@ public class TableSelectorPage extends JPanel implements PropertyChangeListener 
     }
 
     private void popUp(JButton targetButton) {
-        // Scroll pane for JList
         bookingsModel.clear();
         for (Booking bk : mainControl.getCurrentBookings()) {
             bookingsModel.addElement(bk);
@@ -130,12 +128,10 @@ public class TableSelectorPage extends JPanel implements PropertyChangeListener 
         JScrollPane scrollPane = new JScrollPane(bookingsList);
         scrollPane.setPreferredSize(new Dimension(500, 100));
 
-        // Create the popup
         JPopupMenu popup = new JPopupMenu();
         popup.add(scrollPane);
         popup.setFocusable(false);
 
-        // Mouse listener to handle double-clicks
         bookingsList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -147,7 +143,9 @@ public class TableSelectorPage extends JPanel implements PropertyChangeListener 
                     targetButton.setBackground(Color.RED);
 
                     MouseListener ml = buttonMouseListenerMap.get(targetButton);
+                    MouseMotionListener mml = buttonMotionListenerMap.get(targetButton);
                     targetButton.removeMouseListener(ml);
+                    targetButton.removeMouseMotionListener(mml);
 
                     MouseListener tableButtonListener = new MouseAdapter() {
                         @Override
@@ -163,16 +161,14 @@ public class TableSelectorPage extends JPanel implements PropertyChangeListener 
                     buttonMouseListenerMap.put(targetButton, tableButtonListener);
 
                     System.out.println(selectedBooking.getTable());
-                    popup.setVisible(false);  // Close the popup
+                    popup.setVisible(false);
                 }
             }
         });
 
-        // Show the popup relative to the parent component
         int x = (parentFrame.getWidth() - popup.getPreferredSize().width) / 2;
         int y = (parentFrame.getHeight() - popup.getPreferredSize().height) / 2;
 
-        // Show the popup at the calculated position relative to the frame
         popup.show(parentFrame, x, y);
     }
 
@@ -187,7 +183,8 @@ public class TableSelectorPage extends JPanel implements PropertyChangeListener 
             }
         });
 
-        comp.addMouseMotionListener(new MouseMotionAdapter() {
+        MouseMotionListener motionListener = new MouseMotionAdapter() {
+
             @Override
             public void mouseDragged(MouseEvent e) {
                 int x = comp.getX() + e.getX() - anchorPoint[0].x;
@@ -211,6 +208,9 @@ public class TableSelectorPage extends JPanel implements PropertyChangeListener 
                 comp.setLocation(x, y);
                 comp.getParent().repaint();
             }
-        });
+        };
+
+        comp.addMouseMotionListener(motionListener);
+        buttonMotionListenerMap.put((JButton) comp, motionListener);
     }
 }

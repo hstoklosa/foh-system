@@ -40,4 +40,8 @@ public class Dish {
     public int getId() {
         return id;
     }
+
+    public String toString(){
+        return name;
+    }
 }

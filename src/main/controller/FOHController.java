@@ -6,10 +6,12 @@ import main.enums.WeekDay;
 import main.interfaces.internal.IFrontHouse;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 public class FOHController implements IFrontHouse {
     private final int DEFAULT_TABLES_AMOUNT = 15;
@@ -80,11 +82,10 @@ public class FOHController implements IFrontHouse {
 
     public void addBooking(String firstName, String lastName, String phoneNo, int seats) {
         try {
-            // Create connection and initialise PreparedStatement
             Connection conn = db.connect();
             PreparedStatement psta = conn.prepareStatement("INSERT INTO Booking (first_name, last_name, phone_no, date, seats) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
-            // insert params into PreparedStatement
+
             psta.setString(1, firstName);
             psta.setString(2, lastName);
             psta.setString(3, phoneNo);
@@ -113,7 +114,6 @@ public class FOHController implements IFrontHouse {
     }
 
     public void updateBooking(Booking bk) {
-        // Create connection and initialise PreparedStatement
         try {
             Connection conn = db.connect();
             PreparedStatement psta = conn.prepareStatement("UPDATE Booking SET first_name = ?, last_name = ?, phone_no = ?, seats = ?, date = ? WHERE booking_id = ?");
@@ -153,6 +153,12 @@ public class FOHController implements IFrontHouse {
         } catch (SQLException e) {
             System.out.println("An error occurred when removing a booking: " + e.getMessage());
         }
+    }
+
+    public List<Booking> getTodaysBookings() {
+        return bookings.stream()
+                .filter(booking -> booking.getBookingTime().toLocalDate().isEqual(LocalDate.now()))
+                .collect(Collectors.toList());
     }
 
     @Override
