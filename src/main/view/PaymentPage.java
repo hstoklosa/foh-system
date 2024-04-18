@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class PaymentPage extends JPanel {
-
     private JComboBox<String> discount;
     private JComboBox<Integer> split;
     private JTextField fieldAmount;
@@ -51,7 +50,6 @@ public class PaymentPage extends JPanel {
         JButton printReceiptButton = new JButton("Print Receipt");
         printReceiptButton.setBackground(new Color(208, 207, 207));
         printReceiptButton.addActionListener(e -> printReceipt());
-
 
         paymentForm.add(labelAmount);
         paymentForm.add(fieldAmount);

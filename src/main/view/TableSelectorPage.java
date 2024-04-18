@@ -13,22 +13,14 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
-
-// This can be a GUI with the table layout, and you can click on each table to
-// open up its
 public class TableSelectorPage extends JPanel implements PropertyChangeListener {
     private MainView parentFrame;
     private FOHController mainControl;
-    private OrderController orderControl;
 
     private JList<Booking> bookingsList;
     private DefaultListModel<Booking> bookingsModel;
@@ -66,23 +58,19 @@ public class TableSelectorPage extends JPanel implements PropertyChangeListener 
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-
-    }
+    public void propertyChange(PropertyChangeEvent evt) {}
 
     public void initTable() {
-        int cols = 6;               // Total number of columns
+        int cols = 5;                   // Total number of columns
         int tableWidth = 78;
         int tableHeight = 73;
-        int horizontalSpacing = 78; // Space between tables horizontally
-        int verticalSpacing = 73;   // Space between tables vertically
-        int offsetX = 35;            // Initial offset from left
-        int offsetY = 40;           // Initial offset from top
+        int horizontalSpacing = 78;     // Space between tables horizontally
+        int verticalSpacing = 73;       // Space between tables vertically
+        int offsetX = 0;                // Initial offset from left
+        int offsetY = 0;                // Initial offset from top
 
         for (Table table : mainControl.getTables()) {
             JButton tableButton = new JButton(String.valueOf(table.getTableId()));
-
-            tableButton.setBackground(Color.WHITE);
 
             int col = (table.getTableId() - 1) % cols;
             int row = (table.getTableId() - 1) / cols;
@@ -90,6 +78,7 @@ public class TableSelectorPage extends JPanel implements PropertyChangeListener 
             int y = offsetY + row * (tableHeight + verticalSpacing);
 
             tableButton.setBounds(x, y, tableWidth, tableHeight);
+            tableButton.setBackground(Color.WHITE);
 
             if (table.getStatus().equals(TableStatus.FREE)) {
                 makeComponentDraggable(tableButton);
@@ -101,7 +90,7 @@ public class TableSelectorPage extends JPanel implements PropertyChangeListener 
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {  // Check for double-click
-                        popUp((JButton) e.getSource());
+                        openAllocationPopUp((JButton) e.getSource());
                     }
                 }
             };
@@ -113,70 +102,91 @@ public class TableSelectorPage extends JPanel implements PropertyChangeListener 
             buttonTableMap.put(tableButton, table);  // Map the button to the Table object
         }
 
-        add(new JScrollPane(floorPlanPanel), BorderLayout.CENTER);
+        JScrollPane tableLayout = new JScrollPane(floorPlanPanel);
+        add(tableLayout, BorderLayout.CENTER);
     }
 
-    private void popUp(JButton targetButton) {
+    private void openAllocationPopUp(JButton targetButton) {
         bookingsModel.clear();
+
         for (Booking bk : mainControl.getCurrentBookings()) {
             bookingsModel.addElement(bk);
         }
 
         List<Staff> staff = mainControl.fetchStaff();
         DefaultListModel<Staff> staffModel = new DefaultListModel<>();
-        JList<Staff> staffList = new JList<>(staffModel);
 
+        JList<Staff> staffList = new JList<>(staffModel);
         for (Staff s : staff) {
             staffModel.addElement(s);
         }
 
-        JScrollPane scrollPane = new JScrollPane(bookingsList);
-        scrollPane.setPreferredSize(new Dimension(200, 100));
+        JScrollPane bookingScrollPane = new JScrollPane(bookingsList);
+        bookingScrollPane.setPreferredSize(new Dimension(200, 100));
 
         JScrollPane staffScrollPane = new JScrollPane(staffList);
         staffScrollPane.setPreferredSize(new Dimension(200, 100));
 
+        JDialog jd = new JDialog(parentFrame, "Table allocation", Dialog.ModalityType.APPLICATION_MODAL);
+        jd.setSize(new Dimension(550, 250));
+        jd.setLocationRelativeTo(parentFrame); // ensure dialog is centered on the parent frame
+
         JPanel jp = new JPanel();
-        jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS)); // Set the layout to vertical
+        jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS)); // set the layout to vertical
+        jp.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        jp.add(new JLabel("Booking: "));
-        jp.add(scrollPane);
+        JPanel bookingPanel = new JPanel(new BorderLayout());
+        bookingPanel.add(new JLabel("Select booking: "), BorderLayout.NORTH); // aligns label to the left
+        bookingPanel.add(bookingScrollPane, BorderLayout.CENTER); // ensures the scroll pane fills the rest
+        jp.add(bookingPanel);
 
-        jp.add(new JLabel("Waiter: "));
-        jp.add(staffScrollPane);
+        JPanel waiterPanel = new JPanel(new BorderLayout());
+        waiterPanel.add(new JLabel("Assign waiter: "), BorderLayout.NORTH); // aligns label to the left
+        waiterPanel.add(staffScrollPane, BorderLayout.CENTER); // ensures the scroll pane fills the rest
+        jp.add(waiterPanel);
 
-        int result = JOptionPane.showConfirmDialog(
-                this, jp, "Add Booking",
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE
-        );
+        JButton allocateTableBtn = new JButton("Allocate");
+        allocateTableBtn.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        allocateTableBtn.addActionListener(e -> {
+            Table clickedTable = buttonTableMap.get(targetButton);
 
-        if (result != JOptionPane.OK_OPTION) {
-            return;
-        }
+            Booking selectedBooking = bookingsList.getSelectedValue();
+            Staff selectedWaiter = staffList.getSelectedValue();
 
-        Table clickedTable = buttonTableMap.get(targetButton);
-        Booking selectedBooking = bookingsList.getSelectedValue();
-
-        selectedBooking.setTable(clickedTable);
-        targetButton.setBackground(Color.RED);
-
-        MouseListener ml = buttonMouseListenerMap.get(targetButton);
-        MouseMotionListener mml = buttonMotionListenerMap.get(targetButton);
-        targetButton.removeMouseListener(ml);
-        targetButton.removeMouseMotionListener(mml);
-
-        MouseListener tableButtonListener = new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {  // Check for double-click
-                    OrderPage op = new OrderPage(parentFrame, new OrderController(mainControl.getDb(), clickedTable));
-                    parentFrame.addCard(op, "OrdersPage");
-                    parentFrame.showCard("OrdersPage");
-                }
+            if (selectedBooking == null || selectedWaiter == null) {
+                JOptionPane.showMessageDialog(this, "You must assign both table and waiter.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
-        };
-        targetButton.addMouseListener(tableButtonListener);
-        buttonMouseListenerMap.put(targetButton, tableButtonListener);
+
+            selectedBooking.setTable(clickedTable);
+            targetButton.setBackground(Color.RED);
+
+            MouseListener ml = buttonMouseListenerMap.get(targetButton);
+            MouseMotionListener mml = buttonMotionListenerMap.get(targetButton);
+            targetButton.removeMouseListener(ml);
+            targetButton.removeMouseMotionListener(mml);
+
+            MouseListener tableButtonListener = new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {  // Check for double-click
+                        OrderController oc = new OrderController(mainControl.getDb(), clickedTable);
+                        OrderPage op = new OrderPage(parentFrame, oc);
+
+                        parentFrame.addCard(op, "OrdersPage");
+                        parentFrame.showCard("OrdersPage");
+                    }
+                }
+            };
+
+            targetButton.addMouseListener(tableButtonListener);
+            buttonMouseListenerMap.put(targetButton, tableButtonListener);
+            jd.setVisible(false);
+        });
+        jp.add(allocateTableBtn);
+
+        jd.add(jp);
+        jd.setVisible(true);
     }
 
     private void makeComponentDraggable(Component comp){

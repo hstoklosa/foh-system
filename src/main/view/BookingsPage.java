@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -42,13 +43,13 @@ public class BookingsPage extends JPanel {
         add(backButton, BorderLayout.NORTH);
 
         JPanel footerPanel = new JPanel(new FlowLayout());
-        addButton = new JButton("Add Booking");
+        addButton = new JButton("Add");
         addButton.addActionListener(e -> addBooking());
         footerPanel.add(addButton);
 
         add(new JScrollPane(bookingsList), BorderLayout.CENTER);
 
-        JButton removeButton = new JButton("Remove Booking");
+        JButton removeButton = new JButton("Remove");
         removeButton.addActionListener(e -> showRemoveDialog());
         footerPanel.add(removeButton);
         add(footerPanel, BorderLayout.SOUTH);
@@ -64,7 +65,6 @@ public class BookingsPage extends JPanel {
         });
 
         for (Booking booking : mainControl.getCurrentBookings()) {
-            System.out.println(booking);
             bookingsModel.addElement(booking);
         }
     }
@@ -142,6 +142,7 @@ public class BookingsPage extends JPanel {
 
         if (selectedBooking != null) {
             JPanel panel = new JPanel(new GridLayout(0, 1));
+
             JTextField firstNameField = new JTextField(selectedBooking.getFirstName());
             JTextField lastNameField = new JTextField(selectedBooking.getLastName());
             JTextField phoneField = new JTextField(selectedBooking.getPhoneNumber());
@@ -161,14 +162,16 @@ public class BookingsPage extends JPanel {
             panel.add(tableSizeField);
 
             JLabel bookingTimeLabel = new JLabel("Booking Date: ");
-            DatePicker datePicker1 = new DatePicker();
+            DatePicker datePicker = new DatePicker();
+            datePicker.setDate(selectedBooking.getBookingTime().toLocalDate());
             panel.add(bookingTimeLabel);
-            panel.add(datePicker1);
+            panel.add(datePicker);
 
             JLabel bookingDateLabel = new JLabel("Booking Time: ");
-            TimePicker timePicker1 = new TimePicker();
+            TimePicker timePicker = new TimePicker();
+            timePicker.setTime(selectedBooking.getBookingTime().toLocalTime());
             panel.add(bookingDateLabel);
-            panel.add(timePicker1);
+            panel.add(timePicker);
 
             int result = JOptionPane.showConfirmDialog(
                 this, panel, "Manage Booking",
@@ -177,8 +180,8 @@ public class BookingsPage extends JPanel {
 
             if (result == JOptionPane.OK_OPTION) {
                 try {
-                    LocalDate date = datePicker1.getDate();
-                    LocalTime time = timePicker1.getTime();
+                    LocalDate date = datePicker.getDate();
+                    LocalTime time = timePicker.getTime();
                     LocalDateTime dateTime = LocalDateTime.of(date, time);
 
                     selectedBooking.setFirstName(firstNameField.getText());
@@ -187,6 +190,7 @@ public class BookingsPage extends JPanel {
                     selectedBooking.setTableSize(Integer.parseInt(tableSizeField.getText()));
                     selectedBooking.setBookingTime(LocalDateTime.parse(bookingTimeField.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
                     selectedBooking.setBookingTime(dateTime);
+
                     mainControl.updateBooking(selectedBooking);
                     bookingsList.repaint(); // Refresh the JList to show updated information
                 } catch (Exception e) {

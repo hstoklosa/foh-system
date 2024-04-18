@@ -114,13 +114,13 @@ public class Order {
     public String getCurrentCourseString() {
         switch (currentCourseType) {
             case COURSE_AWAY_1 -> {
-                return "Course 1";
+                return "1";
             }
             case COURSE_AWAY_2 -> {
-                return "Course 2";
+                return "2";
             }
             case COURSE_AWAY_3 -> {
-                return "Course 3";
+                return "3";
             }
             default -> {}
         }

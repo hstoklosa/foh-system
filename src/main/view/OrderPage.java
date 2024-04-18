@@ -6,11 +6,11 @@ import main.entity.Course;
 import main.entity.Dish;
 import main.entity.Order;
 import main.entity.Table;
+import main.entity.Menu;
 import main.enums.CourseType;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.stream.Collectors;
 
 public class OrderPage extends JPanel {
     private MainView parentFrame;
@@ -22,10 +22,8 @@ public class OrderPage extends JPanel {
     private JList<Dish> course1List, course2List, course3List;
     private DefaultListModel<Dish> course1Model, course2Model, course3Model;
 
-    private JComboBox<String> courseSelector; // dropdown for selecting the course
-    private JLabel currentCourseLabel;
-
     private JPanel headerPanel;
+    private JLabel currentCourseLabel;
     private JLabel course1StatusLabel, course2StatusLabel, course3StatusLabel;
     private JLabel totalPrice1Label, totalPrice2Label, totalPrice3Label;
     private JButton addToOrderButton, removeFromOrderButton, sendToKitchenButton;
@@ -37,42 +35,49 @@ public class OrderPage extends JPanel {
         this.controller = controller;
 
         setLayout(new BorderLayout());
-        createUIElements(); // creates UI
-        UILayout(); // lays the UI out
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        createUIElements();
+        UILayout();
     }
 
     private void createUIElements() {
         headerPanel = new JPanel(new BorderLayout()); // Align, HGap, VGap
+        headerPanel.setPreferredSize(new Dimension(770, 40));
 
         JPanel headerInnerPanel = new JPanel();
-        headerInnerPanel.add(new JLabel(controller.getTable().getOrder().getCurrentCourseString()));
+        currentCourseLabel = new JLabel("Current Course: " + controller.getTable().getOrder().getCurrentCourseString());
+        currentCourseLabel.setFont(new Font("Open Sans", Font.BOLD, 16).deriveFont(16f));
+        headerInnerPanel.add(currentCourseLabel);
 
         JPanel headerInnerPanel2 = new JPanel();
-
         JButton paymentBtn = new JButton("Go to Payment");
         paymentBtn.addActionListener(e -> {
             PaymentPage pp = new PaymentPage(parentFrame, new PaymentController(controller.getDb()));
             parentFrame.addCard(pp, "PaymentPage");
             parentFrame.showCard("PaymentPage");
         });
-
         headerInnerPanel2.add(paymentBtn);
-        headerInnerPanel2.add(new JButton("Deallocate"));
-        headerPanel.add(headerInnerPanel);
-        headerPanel.add(headerInnerPanel2);
 
-        menuModel = new DefaultListModel<>();
-        menuList = new JList<>(menuModel);
-        menuModel.addElement(new Dish(1, "Pizza", 12.00, "Tomato, Cheese"));
-        menuModel.addElement(new Dish(2, "Burger", 10.00, "Beef, Lettuce, Tomato"));
+        headerPanel.add(headerInnerPanel, BorderLayout.WEST);
+        headerPanel.add(headerInnerPanel2, BorderLayout.EAST);
+        add(headerPanel);
 
         orderModel = new DefaultListModel<>();
         orderList = new JList<>(orderModel);
 
-        Order order = controller.getTable().getOrder();
+        menuModel = new DefaultListModel<>();
+        menuList = new JList<>(menuModel);
+
+        Menu currMenu = parentFrame.getController().getCurrentMenu();
+        for (Dish d : currMenu.getDishes()) {
+            menuModel.addElement(d);
+        }
 
         course1Model = new DefaultListModel<>();
         course1List = new JList<>(course1Model);
+
+        Order order = controller.getTable().getOrder();
 
         Course c1 = order.getCourseByType(CourseType.COURSE_AWAY_1);
         for (Dish dish : c1.getDishes()) {
@@ -102,6 +107,11 @@ public class OrderPage extends JPanel {
         totalPrice1Label = new JLabel("Total: £0.0");
         totalPrice2Label = new JLabel("Total: £0.0");
         totalPrice3Label = new JLabel("Total: £0.0");
+    }
+
+    private void UILayout() {
+        JPanel northPanel = new JPanel(new FlowLayout());
+        northPanel.add(headerPanel);
 
         addToOrderButton = new JButton("Add");
         addToOrderButton.setBackground(new Color(208, 207, 207));
@@ -113,13 +123,6 @@ public class OrderPage extends JPanel {
         addToOrderButton.addActionListener(e -> addSelectedDishToOrder());
         removeFromOrderButton.addActionListener(e -> removeSelectedDishFromOrder());
         sendToKitchenButton.addActionListener(e -> sendToKitchen());
-    }
-
-    private void UILayout() {
-        JPanel northPanel = new JPanel(new FlowLayout());
-        northPanel.add(new JLabel("Course"));
-//        northPanel.add(courseSelector);
-        northPanel.add(headerPanel);
 
         JPanel centerPanel = new JPanel(new GridLayout(1, 2));
         centerPanel.add(new JScrollPane(menuList));
@@ -241,14 +244,21 @@ public class OrderPage extends JPanel {
             }
 
             order.moveNextCourse();
+
+            switch (order.getCurrentCourseType()) {
+                case COURSE_AWAY_1, COURSE_AWAY_2, COURSE_AWAY_3 ->
+                    currentCourseLabel.setText("Current Course: " + controller.getTable().getOrder().getCurrentCourseString());
+                default -> {}
+            }
+
             controller.saveOrder(course.getType());
             orderModel.clear();
         }
     }
 
     /**
-    * This method changes the course status labels to whatever the actual course object's CourseStatus state is.
-    * See the Course class.
+    * This method changes the course status labels to  the actual course object's status.
+    * SEE: Course class.
     */
     private void updateStatusLabels() {
         course1StatusLabel.setText(controller.getTable().getOrder().getCourses().get(0).getState().toString());

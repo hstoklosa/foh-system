@@ -11,6 +11,7 @@ public class InfoPage extends JPanel{
     public InfoPage(MainView parentFrame){
         this.parentFrame = parentFrame;
         setLayout(new BorderLayout());
+        setBackground(new Color(255, 255, 255));
         createUIElements();
     }
 
@@ -30,7 +31,6 @@ public class InfoPage extends JPanel{
                         "</body></html>"
         );
         infoTextPane.setBorder(null);
-
         infoTextPane.setBackground(new Color(214, 217, 223));
 
         JScrollPane scrollPane = new JScrollPane(infoTextPane);
@@ -60,16 +60,11 @@ public class InfoPage extends JPanel{
 
         jp.add(imagePanel);
 
-
         JButton backButton = new JButton("Home");
         backButton.setBackground(new Color(208, 207, 207));
         backButton.setFont(new Font("Open Sans", Font.PLAIN, 16).deriveFont(16f));
         backButton.addActionListener(e -> parentFrame.showCard("HomePage"));
         backButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-
-//        add(backButton, BorderLayout.NORTH);
-//        add(scrollPane, BorderLayout.CENTER);
-//        add(imagePanel, BorderLayout.SOUTH);
 
         add(jp, BorderLayout.CENTER);
     }

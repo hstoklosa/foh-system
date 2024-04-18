@@ -149,11 +149,11 @@ public class MainView extends JFrame {
 
     protected JPanel createHeaderPanel() {
         JPanel headerPanel = new JPanel(new BorderLayout());
-        headerPanel.setPreferredSize(new Dimension(800, 50));
+        headerPanel.setPreferredSize(new Dimension(800, 60));
 
         ImageIcon logo = new ImageIcon("src/resources/images/logo.jpeg");
         Image image = logo.getImage();
-        Image newImg = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        Image newImg = image.getScaledInstance(120, 120, Image.SCALE_SMOOTH);
         logo = new ImageIcon(newImg);
 
         JLabel logoLabel = new JLabel(logo);

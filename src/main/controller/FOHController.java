@@ -4,6 +4,7 @@ import main.database.DBConnection;
 import main.entity.*;
 import main.enums.WeekDay;
 import main.interfaces.internal.IFrontHouse;
+import main.util.FakeAPI;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -28,7 +29,7 @@ public class FOHController implements IFrontHouse {
                 "in2033t04_a", "FREK6PsYUCw"
         );
 
-        this.currentMenu = null;
+        this.currentMenu = FakeAPI.getMenu();
         this.bookings = initBookings();
         this.tables = initTables();
     }
@@ -202,5 +203,13 @@ public class FOHController implements IFrontHouse {
 
     public DBConnection getDb() {
         return db;
+    }
+
+    public Menu getCurrentMenu() {
+        return currentMenu;
+    }
+
+    public void setCurrentMenu(Menu currentMenu) {
+        this.currentMenu = currentMenu;
     }
 }

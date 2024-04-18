@@ -5,27 +5,23 @@ import java.util.List;
 
 public class Menu {
     private List<Dish> dishes;
-    private double price;
-    private String desc;
+
+    public Menu(List<Dish> dishes) {
+        this.dishes = dishes;
+    }
 
     public Menu() {
-        dishes = new ArrayList<>();
+        this(new ArrayList<>());
     }
 
     public void addDish(Dish dish) {
+        dishes.add(dish);
     }
 
-    private boolean isIdExists(int id) {
-        return false;
-    }
+    public void removeDish(Dish dish) {}
 
-    // Method to remove a dish from the menu
-    public void removeDish(Dish dish) {
-    }
-
-    // Method to get all dishes in the menu
     public List<Dish> getDishes() {
-        return null;
+        return dishes;
     }
 
     public void printMenu() {

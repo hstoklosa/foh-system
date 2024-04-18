@@ -8,25 +8,27 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import main.util.FakeAPI;
 import main.entity.Dish;
+import main.entity.Menu;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class HomePage extends JPanel {
-
     private FOHController controller;
 
     public HomePage(FOHController controller) {
         this.controller = controller;
+
         setLayout(new BorderLayout());
-        add(createMenuPanel(), BorderLayout.CENTER);
-        add(createBookingsPanel(), BorderLayout.EAST);
+
+        JPanel jp = new JPanel(new BorderLayout());
+        jp.add(createMenuPanel(), BorderLayout.CENTER);
+        jp.add(createBookingsPanel(), BorderLayout.EAST);
+        jp.setBorder(BorderFactory.createEmptyBorder(30, 15, 30, 15));
+        add(jp);
 
         addComponentListener(new ComponentAdapter() {
             @Override
@@ -38,50 +40,53 @@ public class HomePage extends JPanel {
 
     private JPanel createMenuPanel() {
         JPanel menuPanel = new JPanel(new BorderLayout());
-        menuPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), "Today's Menu"));
+
+        JLabel menuPanelLabel = new JLabel("Today's Menu");
+        menuPanelLabel.setFont(new Font("Open Sans", Font.BOLD, 21));
+        menuPanel.add(menuPanelLabel, BorderLayout.NORTH);
 
         DefaultListModel<Dish> menuModel = new DefaultListModel<>();
         JList<Dish> menuList = new JList<>(menuModel);
         menuList.setFixedCellHeight(30);
         menuList.setFont(new Font("Open Sans", Font.PLAIN, 14));
 
-        List<Dish> menu = FakeAPI.createMenu();
-        menu.forEach(menuModel::addElement);
+        Menu menu = FakeAPI.getMenu();
+        menu.getDishes().forEach(menuModel::addElement);
 
         JScrollPane menuScrollPane = new JScrollPane(menuList);
 
         menuList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(e.getClickCount() == 2){
+                if(e.getClickCount() == 2) {
                     Dish selectedDish = menuList.getSelectedValue();
-                    if(selectedDish != null){
+
+                    if(selectedDish != null)
                         showDishDetails(selectedDish);
-                    }
                 }
             }
         });
 
         menuScrollPane.setPreferredSize(new Dimension(300, 0));
         menuPanel.add(new JScrollPane(menuList), BorderLayout.CENTER);
+
         return menuPanel;
     }
 
     private JPanel createBookingsPanel(){
         JPanel bookingsPanel = new JPanel(new BorderLayout());
-        bookingsPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), "Today's Bookings"));
+
+        JLabel menuPanelLabel = new JLabel("Today's Bookings");
+        menuPanelLabel.setFont(new Font("Open Sans", Font.BOLD, 21));
+        bookingsPanel.add(menuPanelLabel, BorderLayout.NORTH);
 
         DefaultListModel<Booking> model = new DefaultListModel<>();
         JList<Booking> bookingJList = new JList<>(model);
-<<<<<<< HEAD
         bookingJList.setFixedCellHeight(50);
-=======
-        bookingJList.setFixedCellHeight(40);
->>>>>>> 7fdce8aacc63074fde61c0e9774231a60b51ad3a
         bookingJList.setFont(new Font("Open Sans", Font.PLAIN, 14));
 
-        List<Booking> todaysBookings = controller.getTodaysBookings();
-        todaysBookings.forEach(model::addElement);
+        List<Booking> todayBookings = controller.getTodaysBookings();
+        todayBookings.forEach(model::addElement);
 
         JScrollPane bookingsScrollPane = new JScrollPane(bookingJList);
         bookingsScrollPane.setPreferredSize(new Dimension(500, 0));

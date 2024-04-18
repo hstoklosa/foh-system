@@ -1,5 +1,4 @@
 package main.entity;
-
 public class Dish {
     private final int id;
     private String name;
@@ -12,7 +11,6 @@ public class Dish {
         this.price = price;
         this.description = description;
     }
-
     public String getName() {
         return name;
     }
