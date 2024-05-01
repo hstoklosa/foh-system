@@ -1,27 +1,25 @@
 # Lancaster's Restaurant - FOH Subsystem
 
-# Diagrams
+## Diagrams
 
-## Analysis (Use Case Diagram)
+### Analysis (Use Case Diagram)
 
-## Analysis (Class Diagram)
+### Analysis (Class Diagram)
 
-<img src="https://raw.githubusercontent.com/hstoklosa/foh-system/main/data/diagrams/ANALYSIS_CLASS_DIAGRAM.jpg?token=GHSAT0AAAAAACOMFG2EVX5EHTPXZSQLCJP2ZQ4HCNA" alt="Analysis Class Diagram" width="100%"/>
+<img src="https://github.com/hstoklosa/foh-system/blob/main/data/diagrams/ANALYSIS_CLASS_DIAGRAM.jpeg?raw=true" alt="Analysis Class Diagram" width="100%"/>
 
-## Design (Class Diagram)
+### Design (Class Diagram)
 
-...
+<img src="https://github.com/hstoklosa/foh-system/blob/main/data/diagrams/DESIGN_CLASS_DIAGRAM.jpeg?raw=true" alt="Design Class Diagram" width="100%"/>
 
-## Database (ERD Diagram)
+### Database (ERD Diagram)
 
-...
+<img src="https://github.com/hstoklosa/foh-system/blob/main/data/diagrams/ER_DIAGRAM.jpeg?raw=true" alt="ER Diagram" width="100%"/>
 
-# Database Information
+## Copyright & Licenses
 
-Database name: in2033t04
 
-Admin user: in2033t04_a
-Admin password: FREK6PsYUCw
+### Font
 
-Data user: in2033t04_d
-Data password: AyT7knKoxuc
+
+### Art
